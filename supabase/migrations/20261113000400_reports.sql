@@ -393,3 +393,16 @@ begin
   from public.profiles p left join public.fund_accounts a on a.owner_profile_id = p.id and a.kind = 'staff_reserve'
   order by p.is_active desc, p.role, p.display_name;
 end $$;
+
+-- 買取取引に紐づく本人確認記録の一覧（内容は返さない）
+create or replace function public.purchase_identity_records(p_purchase_id uuid)
+returns table (id uuid, verification_method text, verified_at timestamptz, retain_until date)
+language plpgsql stable security definer set search_path = '' as $$
+declare v_uid uuid := app.require_user();
+begin
+  if not (app.is_manager() or exists (select 1 from public.purchase_transactions t where t.id = p_purchase_id and t.staff_id = v_uid)) then
+    return;
+  end if;
+  return query select r.id, r.verification_method, r.verified_at, r.retain_until
+    from public.customer_identity_records r where r.purchase_transaction_id = p_purchase_id and r.disposed_at is null;
+end $$;

@@ -154,7 +154,7 @@ grant execute on function
   public.report_summary(timestamptz, timestamptz, uuid), public.report_timeseries(date, date, text, uuid),
   public.report_staff_ranking(timestamptz, timestamptz), public.report_breakdown(timestamptz, timestamptz, text, uuid),
   public.fund_balances(), public.search_items(text, uuid, text, text, uuid, integer, integer),
-  public.get_item(uuid), public.get_sale_lines(uuid), public.admin_list_staff()
+  public.get_item(uuid), public.get_sale_lines(uuid), public.admin_list_staff(), public.purchase_identity_records(uuid)
 to authenticated;
 
 -- 今後作成される関数もデフォルトでは実行不可にする

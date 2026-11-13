@@ -946,6 +946,13 @@ begin
       perform app.fail('FORBIDDEN', '自分の準備金口座についてのみ申請できます');
     end if;
     if v_type = 'fund_transfer' then
+      -- 従業員は他人の口座IDを参照できないため、移動先は従業員IDでも指定可能
+      if v_payload ->> 'to_account_id' is null and v_payload ->> 'to_profile_id' is not null then
+        v_payload := v_payload || jsonb_build_object('to_account_id', app.staff_reserve_account((v_payload ->> 'to_profile_id')::uuid));
+      end if;
+      if (v_payload ->> 'to_account_id')::uuid = v_target then
+        perform app.fail('VALIDATION', '同じ口座間では移動できません');
+      end if;
       if (select kind from public.fund_accounts where id = (v_payload ->> 'to_account_id')::uuid) is distinct from 'staff_reserve' then
         perform app.fail('VALIDATION', '移動先の準備金口座を指定してください');
       end if;

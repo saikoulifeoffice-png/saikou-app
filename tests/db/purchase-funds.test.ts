@@ -216,6 +216,22 @@ describe("資金台帳", () => {
     expect(await balance(acc)).toBe(40_000);
   });
 
+  it("従業員間移動の申請（移動先は従業員IDで指定）→ 承認で原子的に移動", async () => {
+    const x = await createUser("staff");
+    const y = await createUser("staff");
+    await replenish(owner, x, 20_000);
+    await expectError(
+      rpc(x, "create_approval_request", { idempotency_key: uuid(), request_type: "fund_transfer", target_id: await reserveAccount(y), payload: { amount: 1, to_profile_id: x.id }, reason: "他人口座" }),
+      "FORBIDDEN",
+    );
+    const req = await rpc(x, "create_approval_request", {
+      idempotency_key: uuid(), request_type: "fund_transfer", payload: { amount: 8_000, to_profile_id: y.id }, reason: "応援出張",
+    });
+    await rpc(owner, "decide_approval_request", req.request_id, true, null);
+    expect(await balance(await reserveAccount(x))).toBe(12_000);
+    expect(await balance(await reserveAccount(y))).toBe(8_000);
+  });
+
   it("自分の申請は承認できない", async () => {
     const req = await rpc(admin, "create_approval_request", {
       idempotency_key: uuid(),

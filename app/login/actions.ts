@@ -1,0 +1,39 @@
+"use server";
+import { redirect } from "next/navigation";
+import { z } from "zod";
+import { createClient } from "@/lib/supabase/server";
+
+const schema = z.object({
+  email: z.email("メールアドレスの形式が正しくありません"),
+  password: z.string().min(1, "パスワードを入力してください"),
+  next: z.string().optional(),
+});
+
+export interface LoginState {
+  error?: string;
+  email?: string;
+}
+
+export async function signIn(_: LoginState, formData: FormData): Promise<LoginState> {
+  const parsed = schema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { error: parsed.error.issues[0].message, email: String(formData.get("email") ?? "") };
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
+  if (error || !data.user) {
+    return { error: "メールアドレスまたはパスワードが正しくありません", email: parsed.data.email };
+  }
+  const { data: profile } = await supabase.from("profiles").select("is_active").eq("id", data.user.id).maybeSingle();
+  if (!profile?.is_active) {
+    await supabase.auth.signOut();
+    return { error: "このアカウントは無効化されています。管理者にお問い合わせください", email: parsed.data.email };
+  }
+  // オープンリダイレクト防止: アプリ内パスのみ許可
+  const next = parsed.data.next && /^\/(?!\/)[\w\-/]*$/.test(parsed.data.next) ? parsed.data.next : "/home";
+  redirect(next);
+}
+
+export async function signOut() {
+  const supabase = await createClient();
+  await supabase.auth.signOut();
+  redirect("/login");
+}
