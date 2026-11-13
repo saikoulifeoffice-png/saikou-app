@@ -1,7 +1,7 @@
 # 買取SAIKOU Manager — Phase 1 詳細設計・実装計画（レビュー用ドラフト）
 
 - 作成日: 2026-11-13
-- ステータス: **ご確認待ち（未実装）**
+- ステータス: **承認済み・Phase 1 実装完了**（実装との差分は末尾「実装時の変更点」参照）
 - 対象: Phase 1（認証、買取登録、商品写真、在庫、販売、資金台帳、基本ダッシュボード）
 - 前提: リポジトリは `README.md` のみの初期状態。既存コードの破壊リスクなし。
 
@@ -297,7 +297,7 @@ Next.js 側は Server Action → Zod 検証 → `requireRole()` → `supabase.rp
 
 RLS 実装:
 - ヘルパー関数 `app.current_role()`, `app.is_manager()`（owner/admin）を `SECURITY DEFINER STABLE` で定義
-- 全テーブル `ENABLE ROW LEVEL SECURITY` ＋ `FORCE`
+- 全テーブル `ENABLE ROW LEVEL SECURITY`（`FORCE` は使わず、SECURITY DEFINER 関数のみ所有者権限で読み書き）
 - staff 用 SELECT ポリシー: `staff_id = auth.uid()` 等。他人在庫は原価を含まない `items_public` ビュー（`security_invoker`）経由
 - 帳簿テーブルは INSERT/UPDATE/DELETE ポリシーを作らない（＝RPC 以外から書けない）
 - Storage: バケット `item-photos`（private）。ポリシーで「パス先頭の item_id を閲覧可能なユーザー」のみ。表示は Server Action で **10分有効の署名付きURL** を発行
@@ -386,3 +386,18 @@ RLS 実装:
 | Q8 | 買取方法の選択肢 | 店頭／出張／宅配／その他 |
 | Q9 | 商品状態の選択肢 | 新品・未使用／S／A／B／C／D／ジャンク |
 | Q10 | Supabase / ホスティング | 開発はローカル Supabase（Docker）で進め、本番用 Supabase プロジェクト・Vercel 等の作成はご承認後 |
+
+---
+
+## 9. 実装時の変更点（2026-11-13）
+
+| 設計時 | 実装 | 理由 |
+|---|---|---|
+| RLS に `FORCE` を付与 | `ENABLE` のみ | 検証付き RPC（SECURITY DEFINER）が所有者権限で台帳を書き込むため。利用者ロール（authenticated）には書き込み権限自体を与えていない |
+| `items_public` ビュー | `search_items` / `get_item` 関数 | 他担当者の商品の原価・製造番号を権限に応じてマスクするため |
+| fund_tx_type `transfer_in` / `transfer_out` | `transfer`（符号で入出金を表現） | 他の移動種別と同じく `transfer_group_id` の合計0で検証 |
+| 販売明細の原価列 | 列権限で直接参照不可、`get_sale_lines` 経由 | 販売担当が他人の買取原価を見られないようにするため |
+| 本人確認記録の拒否時は例外 | 空結果を返し拒否を監査ログに記録 | 例外だと監査ログもロールバックされるため |
+| 追加テーブル | `app_settings`, `item_categories`, `app.doc_counters` | 設定・カテゴリーマスタ・採番 |
+| 従業員アカウント | 代表が初期パスワードを設定して発行 | 招待メール（SMTP）未設定でも運用できるため。招待方式は要検討 |
+| Next.js | 16（`middleware` は `proxy.ts`、Cache Components は無効） | 認証必須の業務画面のため、リクエストごとの動的描画を採用 |
