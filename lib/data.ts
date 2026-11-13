@@ -2,6 +2,7 @@ import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import type { Profile } from "@/lib/auth/session";
 import { isManager } from "@/lib/auth/session";
+import { toBrowserUrl } from "@/lib/supabase/env";
 
 export async function getCategories() {
   const supabase = await createClient();
@@ -42,6 +43,6 @@ export async function signedPhotoUrls(paths: string[], expiresIn = 600): Promise
   const supabase = await createClient();
   const { data } = await supabase.storage.from("item-photos").createSignedUrls(unique, expiresIn);
   const out: Record<string, string> = {};
-  for (const d of data ?? []) if (d.path && d.signedUrl) out[d.path] = d.signedUrl;
+  for (const d of data ?? []) if (d.path && d.signedUrl) out[d.path] = toBrowserUrl(d.signedUrl);
   return out;
 }

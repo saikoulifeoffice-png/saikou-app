@@ -63,6 +63,17 @@ DEMO_PASSWORD=任意の10文字以上英数字 npm run seed:demo
 npm run dev        # http://localhost:3000
 ```
 
+### スマホ等の別端末から確認する（同一オリジン経由モード）
+
+ローカル Supabase（127.0.0.1）にスマホから直接つながらない場合、アプリ経由で Supabase に接続するモードで起動します。
+
+```bash
+export NEXT_PUBLIC_SUPABASE_URL=/sb SUPABASE_INTERNAL_URL=http://127.0.0.1:54321
+npm run build && npm start -- -H 0.0.0.0
+```
+
+ブラウザは `/sb/*` 経由で認証・写真保存に接続し、サーバーが Supabase へ転送します（`next.config.ts` の rewrites）。
+
 ## 初期管理者（代表）の安全な作成手順
 
 1. `.env.local`（Git 管理外）に `NEXT_PUBLIC_SUPABASE_URL` と `SUPABASE_SERVICE_ROLE_KEY` を設定します。サービスロールキーは**サーバー/作業端末のみ**に置き、チャット・メール・リポジトリに貼らないでください。

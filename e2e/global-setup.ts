@@ -7,7 +7,8 @@ config({ path: ".env.local" });
 
 /** テスト用の架空ユーザー（代表・従業員2名）を作成し、従業員Aに準備金を補充する */
 export default async function globalSetup() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const configured = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const url = configured.startsWith("/") ? process.env.SUPABASE_INTERNAL_URL! : configured;
   if (!/127\.0\.0\.1|localhost/.test(url)) throw new Error("E2E はローカル Supabase でのみ実行できます");
   const admin = createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
   const password = `E2e-${randomUUID()}`;
