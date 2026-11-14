@@ -1,0 +1,10 @@
+# Vercel CLI でのデプロイ時にアップロードしないもの（秘密情報・生成物）
+.env*
+!.env.example
+node_modules
+.next
+test-results
+playwright-report
+supabase/.temp
+supabase/.branches
+*.tsbuildinfo

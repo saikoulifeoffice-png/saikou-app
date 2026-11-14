@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+/* 買取SAIKOU Manager テーマ: ネイビー × ホワイト、アクセントにゴールド */
+@theme {
+  --font-sans: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", "Meiryo", system-ui, sans-serif;
+
+  --color-navy-50: #eef2f9;
+  --color-navy-100: #d7e0ef;
+  --color-navy-200: #b0c1de;
+  --color-navy-300: #7f98c4;
+  --color-navy-400: #4f6ea6;
+  --color-navy-500: #2f4f88;
+  --color-navy-600: #1f3b6d;
+  --color-navy-700: #172d55;
+  --color-navy-800: #112241;
+  --color-navy-900: #0b1730;
+  --color-navy-950: #070f20;
+
+  --color-gold-50: #fbf7ec;
+  --color-gold-100: #f5ebcc;
+  --color-gold-200: #ecd696;
+  --color-gold-300: #e0bd5f;
+  --color-gold-400: #d4a63a;
+  --color-gold-500: #b98b26;
+  --color-gold-600: #966d1d;
+  --color-gold-700: #73521a;
+
+  --color-background: #f5f7fb;
+  --color-surface: #ffffff;
+  --color-foreground: #0f1b33;
+  --color-muted: #5b6780;
+  --color-border: #dde3ee;
+  --color-positive: #0f7b4b;
+  --color-negative: #c0362c;
+  --color-warning: #a15c00;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  font-feature-settings: "palt";
+}
+
+/* 数字は等幅で揃える */
+.num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+  letter-spacing: 0;
+}
+
+/* iOS の下部セーフエリア */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
