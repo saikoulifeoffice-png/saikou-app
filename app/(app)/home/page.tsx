@@ -12,12 +12,15 @@ import { Button } from "@/components/ui/button";
 import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { Yen } from "@/components/yen";
+import { redirect } from "next/navigation";
+import { getUiMode } from "@/lib/data";
 
 export const metadata = { title: "ホーム" };
 
 export default async function HomePage({ searchParams }: { searchParams: Promise<{ denied?: string }> }) {
   const me = await requireProfile();
   const { denied } = await searchParams;
+  if ((await getUiMode()) === "simple") redirect(denied ? "/gold/new?denied=1" : "/gold/new");
   const month = presetRange("this_month");
   const today = presetRange("today");
   const mr = jstRange(month.from, month.to);

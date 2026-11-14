@@ -2,7 +2,7 @@
 
 株式会社saikou「買取SAIKOU」の業務管理 Web アプリです。買取・販売・経費・資金移動を入力すると、全社と個人の売上・利益・買取使用金額・買取準備金・在庫が自動で集計されます。
 
-- 現在の実装範囲: **Phase 1**（認証、買取登録、商品写真、在庫、販売、資金台帳、基本ダッシュボード）
+- 現在の実装範囲: **貴金属買取（簡易版）**（[`docs/gold-simple.md`](docs/gold-simple.md)、既定の画面モード）と **Phase 1**（認証、買取登録、商品写真、在庫、販売、資金台帳、基本ダッシュボード。設定で「全機能」に切替）
 - 設計: [`docs/phase1-design.md`](docs/phase1-design.md)
 - 本番公開手順: [`docs/deployment.md`](docs/deployment.md)
 - 未実装・要確認事項: [`docs/open-issues.md`](docs/open-issues.md)

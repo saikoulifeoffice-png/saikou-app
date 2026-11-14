@@ -5,12 +5,13 @@ import { createClient } from "@/lib/supabase/server";
 import { BottomNav, Sidebar } from "@/components/app-nav";
 import { BrandMark, buildNav } from "@/components/nav-config";
 import { signOut } from "@/app/login/actions";
+import { getUiMode } from "@/lib/data";
 
 export default async function AppLayout({ children }: { children: React.ReactNode }) {
   const profile = await requireProfile();
   const supabase = await createClient();
   let pending = 0;
-  if (isManager(profile)) {
+  if (isManager(profile) && (await getUiMode()) === "full") {
     const { count } = await supabase
       .from("approval_requests")
       .select("id", { count: "exact", head: true })
@@ -18,12 +19,13 @@ export default async function AppLayout({ children }: { children: React.ReactNod
       .neq("requested_by", profile.id);
     pending = count ?? 0;
   }
-  const nav = buildNav(profile.role, pending);
+  const mode = await getUiMode();
+  const nav = buildNav(profile.role, pending, mode);
 
   return (
     <div className="min-h-dvh lg:flex">
       <aside className="sticky top-0 hidden h-dvh w-64 shrink-0 flex-col bg-navy-900 px-3 py-5 lg:flex">
-        <Link href="/home" className="mb-6 px-2">
+        <Link href={mode === "simple" ? "/gold/new" : "/home"} className="mb-6 px-2">
           <BrandMark />
         </Link>
         <div className="flex-1 overflow-y-auto">
@@ -44,7 +46,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
 
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex items-center justify-between bg-navy-900 px-4 py-3 lg:hidden">
-          <Link href="/home">
+          <Link href={mode === "simple" ? "/gold/new" : "/home"}>
             <BrandMark />
           </Link>
           <Link href="/account" className="text-right">
@@ -54,7 +56,7 @@ export default async function AppLayout({ children }: { children: React.ReactNod
         </header>
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 pt-5 pb-28 sm:px-6 lg:px-8 lg:pt-8 lg:pb-12">{children}</main>
       </div>
-      <BottomNav badge={pending} />
+      <BottomNav badge={pending} mode={mode} />
     </div>
   );
 }

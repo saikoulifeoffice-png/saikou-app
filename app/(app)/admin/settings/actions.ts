@@ -12,6 +12,8 @@ const schema = z.object({
   admin_can_approve_funds: z.boolean(),
   identity_retention_years: z.number().int().min(1).max(30),
   long_stay_days: z.number().int().min(1).max(3650),
+  ui_mode: z.enum(["simple", "full"]),
+  pm_price_source_name: z.string().trim().min(1, "相場の取得元名を入力してください").max(100),
 });
 
 export async function saveSettings(input: z.input<typeof schema>): Promise<ActionResult> {

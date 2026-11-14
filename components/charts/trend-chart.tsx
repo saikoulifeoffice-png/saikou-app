@@ -19,9 +19,9 @@ function compact(v: number) {
   return v.toLocaleString("ja-JP");
 }
 
-export function TrendChart({ data }: { data: TrendPoint[] }) {
+export function TrendChart({ data, labels = { revenue: "売上", net_profit: "純利益" } }: { data: TrendPoint[]; labels?: { revenue: string; net_profit: string } }) {
   return (
-    <div className="h-64 w-full sm:h-72" role="img" aria-label="売上と純利益の推移グラフ（下に表形式データあり）">
+    <div className="h-64 w-full sm:h-72" role="img" aria-label={`${labels.revenue}と${labels.net_profit}の推移グラフ（下に表形式データあり）`}>
       <ResponsiveContainer width="100%" height="100%">
         <ComposedChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 0 }} barCategoryGap="20%">
           <CartesianGrid vertical={false} stroke="#e6ebf3" />
@@ -29,10 +29,10 @@ export function TrendChart({ data }: { data: TrendPoint[] }) {
           <YAxis tickFormatter={compact} tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: "#5b6780" }} width={52} />
           <Tooltip
             cursor={{ fill: "rgba(47,79,136,0.06)" }}
-            formatter={(v, name) => [formatYen(Number(v)), name === "revenue" ? "売上" : "純利益"]}
+            formatter={(v, name) => [formatYen(Number(v)), name === "revenue" ? labels.revenue : labels.net_profit]}
             contentStyle={{ borderRadius: 8, border: "1px solid #dde3ee", fontSize: 12 }}
           />
-          <Legend formatter={(v) => (v === "revenue" ? "売上" : "純利益")} wrapperStyle={{ fontSize: 12, color: "#0f1b33" }} iconSize={10} />
+          <Legend formatter={(v) => (v === "revenue" ? labels.revenue : labels.net_profit)} wrapperStyle={{ fontSize: 12, color: "#0f1b33" }} iconSize={10} />
           <Bar dataKey="revenue" fill={REVENUE} radius={[4, 4, 0, 0]} maxBarSize={28} />
           <Line dataKey="net_profit" stroke={PROFIT} strokeWidth={2} dot={{ r: 3, fill: PROFIT, stroke: "#fff", strokeWidth: 2 }} activeDot={{ r: 5 }} type="monotone" />
         </ComposedChart>

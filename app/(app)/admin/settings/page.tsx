@@ -17,6 +17,7 @@ export default async function SettingsPage() {
       <Card><CardContent><SettingsForm initial={{
         tax_basis: s.tax_basis, tax_rounding: s.tax_rounding, staff_can_view_other_inventory: s.staff_can_view_other_inventory,
         admin_can_approve_funds: s.admin_can_approve_funds, identity_retention_years: s.identity_retention_years, long_stay_days: s.long_stay_days,
+        ui_mode: s.ui_mode === "full" ? "full" : "simple", pm_price_source_name: s.pm_price_source_name,
       }} /></CardContent></Card>
     </div>
   );

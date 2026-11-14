@@ -51,14 +51,14 @@ isOneToOne: false
                   ]
                 },"app_settings": {
                   Row: {
-                    "admin_can_approve_funds": boolean,"id": boolean,"identity_retention_years": number,"long_stay_days": number,"staff_can_view_other_inventory": boolean,"tax_basis": Database["public"]['Enums']["tax_basis"],"tax_rounding": Database["public"]['Enums']["rounding_mode"],"updated_at": string,"updated_by": string | null
+                    "admin_can_approve_funds": boolean,"id": boolean,"identity_retention_years": number,"long_stay_days": number,"pm_price_source_name": string,"staff_can_view_other_inventory": boolean,"tax_basis": Database["public"]['Enums']["tax_basis"],"tax_rounding": Database["public"]['Enums']["rounding_mode"],"ui_mode": string,"updated_at": string,"updated_by": string | null
                   }
                   ComputedFields: never
                   Insert: {
-                    "admin_can_approve_funds"?: boolean,"id"?: boolean,"identity_retention_years"?: number,"long_stay_days"?: number,"staff_can_view_other_inventory"?: boolean,"tax_basis"?: Database["public"]['Enums']["tax_basis"],"tax_rounding"?: Database["public"]['Enums']["rounding_mode"],"updated_at"?: string,"updated_by"?: string | null
+                    "admin_can_approve_funds"?: boolean,"id"?: boolean,"identity_retention_years"?: number,"long_stay_days"?: number,"pm_price_source_name"?: string,"staff_can_view_other_inventory"?: boolean,"tax_basis"?: Database["public"]['Enums']["tax_basis"],"tax_rounding"?: Database["public"]['Enums']["rounding_mode"],"ui_mode"?: string,"updated_at"?: string,"updated_by"?: string | null
                   }
                   Update: {
-                    "admin_can_approve_funds"?: boolean,"id"?: boolean,"identity_retention_years"?: number,"long_stay_days"?: number,"staff_can_view_other_inventory"?: boolean,"tax_basis"?: Database["public"]['Enums']["tax_basis"],"tax_rounding"?: Database["public"]['Enums']["rounding_mode"],"updated_at"?: string,"updated_by"?: string | null
+                    "admin_can_approve_funds"?: boolean,"id"?: boolean,"identity_retention_years"?: number,"long_stay_days"?: number,"pm_price_source_name"?: string,"staff_can_view_other_inventory"?: boolean,"tax_basis"?: Database["public"]['Enums']["tax_basis"],"tax_rounding"?: Database["public"]['Enums']["rounding_mode"],"ui_mode"?: string,"updated_at"?: string,"updated_by"?: string | null
                   }
                   Relationships: [
                     
@@ -431,6 +431,110 @@ isOneToOne: false
       referencedColumns: ["id"]
     }
                   ]
+                },"pm_grades": {
+                  Row: {
+                    "code": string,"is_active": boolean,"label": string,"metal": string,"sort_order": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "code": string,"is_active"?: boolean,"label": string,"metal": string,"sort_order"?: number
+                  }
+                  Update: {
+                    "code"?: string,"is_active"?: boolean,"label"?: string,"metal"?: string,"sort_order"?: number
+                  }
+                  Relationships: [
+                    
+                  ]
+                },"pm_market_prices": {
+                  Row: {
+                    "created_at": string,"fetched_at": string,"grade_code": string,"id": string,"method": string,"note": string | null,"price_date": string,"recorded_by": string | null,"source_name": string,"source_url": string | null,"unit_price": number,"updated_at": string
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"fetched_at": string,"grade_code": string,"id"?: string,"method": string,"note"?: string | null,"price_date": string,"recorded_by"?: string | null,"source_name": string,"source_url"?: string | null,"unit_price": number,"updated_at"?: string
+                  }
+                  Update: {
+                    "created_at"?: string,"fetched_at"?: string,"grade_code"?: string,"id"?: string,"method"?: string,"note"?: string | null,"price_date"?: string,"recorded_by"?: string | null,"source_name"?: string,"source_url"?: string | null,"unit_price"?: number,"updated_at"?: string
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pm_market_prices_grade_code_fkey"
+      columns: ["grade_code"]
+isOneToOne: false
+      referencedRelation: "pm_grades"
+      referencedColumns: ["code"]
+    },{
+      foreignKeyName: "pm_market_prices_recorded_by_fkey"
+      columns: ["recorded_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"pm_purchase_items": {
+                  Row: {
+                    "grade_code": string,"id": string,"item_name": string | null,"line_no": number,"market_price_date": string | null,"market_price_id": string | null,"metal_value": number,"price_basis": string,"purchase_id": string,"unit_price": number,"weight_g": number
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "grade_code": string,"id"?: string,"item_name"?: string | null,"line_no": number,"market_price_date"?: string | null,"market_price_id"?: string | null,"metal_value": number,"price_basis": string,"purchase_id": string,"unit_price": number,"weight_g": number
+                  }
+                  Update: {
+                    "grade_code"?: string,"id"?: string,"item_name"?: string | null,"line_no"?: number,"market_price_date"?: string | null,"market_price_id"?: string | null,"metal_value"?: number,"price_basis"?: string,"purchase_id"?: string,"unit_price"?: number,"weight_g"?: number
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pm_purchase_items_grade_code_fkey"
+      columns: ["grade_code"]
+isOneToOne: false
+      referencedRelation: "pm_grades"
+      referencedColumns: ["code"]
+    },{
+      foreignKeyName: "pm_purchase_items_market_price_id_fkey"
+      columns: ["market_price_id"]
+isOneToOne: false
+      referencedRelation: "pm_market_prices"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pm_purchase_items_purchase_id_fkey"
+      columns: ["purchase_id"]
+isOneToOne: false
+      referencedRelation: "pm_purchases"
+      referencedColumns: ["id"]
+    }
+                  ]
+                },"pm_purchases": {
+                  Row: {
+                    "created_at": string,"customer_address": string | null,"customer_name": string,"customer_phone": string | null,"entered_by": string,"expected_profit": number | null,"id": string,"idempotency_key": string,"note": string | null,"paid_amount": number,"purchase_no": string,"purchased_on": string,"staff_id": string,"status": string,"total_metal_value": number,"void_reason": string | null,"voided_at": string | null,"voided_by": string | null
+                  }
+                  ComputedFields: never
+                  Insert: {
+                    "created_at"?: string,"customer_address"?: string | null,"customer_name": string,"customer_phone"?: string | null,"entered_by": string,"expected_profit"?: never,"id"?: string,"idempotency_key": string,"note"?: string | null,"paid_amount": number,"purchase_no": string,"purchased_on": string,"staff_id": string,"status"?: string,"total_metal_value": number,"void_reason"?: string | null,"voided_at"?: string | null,"voided_by"?: string | null
+                  }
+                  Update: {
+                    "created_at"?: string,"customer_address"?: string | null,"customer_name"?: string,"customer_phone"?: string | null,"entered_by"?: string,"expected_profit"?: never,"id"?: string,"idempotency_key"?: string,"note"?: string | null,"paid_amount"?: number,"purchase_no"?: string,"purchased_on"?: string,"staff_id"?: string,"status"?: string,"total_metal_value"?: number,"void_reason"?: string | null,"voided_at"?: string | null,"voided_by"?: string | null
+                  }
+                  Relationships: [
+                    {
+      foreignKeyName: "pm_purchases_entered_by_fkey"
+      columns: ["entered_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pm_purchases_staff_id_fkey"
+      columns: ["staff_id"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    },{
+      foreignKeyName: "pm_purchases_voided_by_fkey"
+      columns: ["voided_by"]
+isOneToOne: false
+      referencedRelation: "profiles"
+      referencedColumns: ["id"]
+    }
+                  ]
                 },"profiles": {
                   Row: {
                     "created_at": string,"display_name": string,"email": string | null,"id": string,"is_active": boolean,"role": Database["public"]['Enums']["user_role"],"updated_at": string
@@ -680,6 +784,33 @@ isOneToOne: false
 { Args: { "p_sale_id": string }; Returns: {
               "cost_excl": number,"cost_incl": number,"direct_expense_excl": number,"direct_expense_incl": number,"id": string,"item_id": string,"item_name": string,"item_no": string,"line_no": number,"profit_excl": number,"profit_incl": number,"purchaser_name": string,"purchaser_staff_id": string,"quantity": number,"returned_from_sale_item_id": string,"returned_quantity": number,"revenue_excl": number,"revenue_incl": number,"tax_category": Database["public"]['Enums']["tax_category"]
             }[]
+                           },
+"pm_prices_for_date":
+{ Args: { "p_date": string }; Returns: {
+              "fetched_at": string,"grade_code": string,"is_exact_date": boolean,"market_price_id": string,"price_date": string,"source_name": string,"unit_price": number
+            }[]
+                           },
+"pm_register_purchase":
+{ Args: { "p": Json }; Returns: Json
+                           },
+"pm_report_by_staff":
+{ Args: { "p_from": string,"p_to": string }; Returns: {
+              "count": number,"display_name": string,"expected_profit": number,"paid_amount": number,"staff_id": string,"total_metal_value": number
+            }[]
+                           },
+"pm_report_summary":
+{ Args: { "p_from": string,"p_staff"?: string,"p_to": string }; Returns: Json
+                           },
+"pm_report_timeseries":
+{ Args: { "p_from": string,"p_grain"?: string,"p_staff"?: string,"p_to": string }; Returns: {
+              "bucket": string,"count": number,"expected_profit": number,"paid_amount": number,"total_metal_value": number
+            }[]
+                           },
+"pm_upsert_market_prices":
+{ Args: { "p": Json }; Returns: number
+                           },
+"pm_void_purchase":
+{ Args: { "p_id": string,"p_reason": string }; Returns: undefined
                            },
 "purchase_identity_records":
 { Args: { "p_purchase_id": string }; Returns: {

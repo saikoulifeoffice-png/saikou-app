@@ -1,5 +1,10 @@
 import { expect, test } from "@playwright/test";
 import { login, users } from "./helpers";
+import { setUiMode } from "./mode";
+
+// このファイルは全機能モードの画面を検証する
+test.beforeAll(async () => setUiMode("full"));
+test.afterAll(async () => setUiMode("simple"));
 
 test("未ログインはログイン画面へリダイレクトされる", async ({ page }) => {
   await page.goto("/funds");

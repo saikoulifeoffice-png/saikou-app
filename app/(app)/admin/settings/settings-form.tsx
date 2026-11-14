@@ -16,6 +16,14 @@ export function SettingsForm({ initial }: { initial: S }) {
   return (
     <div className="grid gap-4">
       {msg && <Alert tone={msg.tone}>{msg.text}</Alert>}
+      <Field label="画面モード" hint="簡易版: 貴金属買取（登録・履歴・相場・集計）のみ表示。全機能: 在庫・販売・資金管理も表示">
+        <select className="flex h-11 w-full rounded-lg border border-border bg-surface px-3" value={v.ui_mode} onChange={(e) => setV({ ...v, ui_mode: e.target.value as S["ui_mode"] })}>
+          <option value="simple">簡易版（貴金属買取のみ）</option><option value="full">全機能</option>
+        </select>
+      </Field>
+      <Field label="参考相場の取得元名" hint="相場登録時の既定の取得元として記録されます">
+        <Input value={v.pm_price_source_name} onChange={(e) => setV({ ...v, pm_price_source_name: e.target.value })} />
+      </Field>
       <Field label="集計の税基準" hint="ダッシュボード・個人実績・ランキングすべてに適用（混在しません）">
         <Select value={v.tax_basis} onChange={(e) => setV({ ...v, tax_basis: e.target.value as S["tax_basis"] })}><option value="incl">税込</option><option value="excl">税抜</option></Select>
       </Field>

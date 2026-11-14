@@ -1,5 +1,8 @@
 import {
   BarChart3,
+  Coins,
+  History,
+  LineChart,
   Building2,
   CheckSquare,
   HandCoins,
@@ -32,6 +35,9 @@ export const NAV_ICONS = {
   settings: Settings,
   account: UserCog,
   menu: LayoutGrid,
+  gold: Coins,
+  history: History,
+  prices: LineChart,
 } satisfies Record<string, LucideIcon>;
 
 export type NavIcon = keyof typeof NAV_ICONS;
@@ -44,7 +50,23 @@ export interface NavItem {
   badge?: number;
 }
 
-export function buildNav(role: "owner" | "admin" | "staff", pendingApprovals: number): { main: NavItem[]; manage: NavItem[] } {
+export type UiMode = "simple" | "full";
+
+export function buildNav(role: "owner" | "admin" | "staff", pendingApprovals: number, mode: UiMode = "full"): { main: NavItem[]; manage: NavItem[] } {
+  if (mode === "simple") {
+    const manage: NavItem[] = [];
+    if (role !== "staff") manage.push({ href: "/admin/staff", label: "従業員・権限", icon: "staff" });
+    if (role === "owner") manage.push({ href: "/admin/settings", label: "設定", icon: "settings" });
+    return {
+      main: [
+        { href: "/gold/new", label: "買取登録", icon: "gold" },
+        { href: "/gold", label: "買取履歴", icon: "history" },
+        { href: "/gold/prices", label: "相場管理", icon: "prices" },
+        { href: "/gold/reports", label: "買取集計", icon: "dashboard" },
+      ],
+      manage,
+    };
+  }
   const main: NavItem[] = [
     { href: "/home", label: "ホーム", icon: "home" },
     { href: "/purchases/new", label: "買取登録", icon: "purchase", match: ["/purchases"] },
@@ -54,6 +76,7 @@ export function buildNav(role: "owner" | "admin" | "staff", pendingApprovals: nu
     { href: "/funds", label: "買取準備金", icon: "funds" },
     { href: "/performance", label: "個人実績", icon: "performance" },
     { href: "/approvals", label: "承認", icon: "approvals", badge: pendingApprovals },
+    { href: "/gold/new", label: "貴金属買取（簡易）", icon: "gold", match: ["/gold"] },
   ];
   const manage: NavItem[] = [];
   if (role !== "staff") {

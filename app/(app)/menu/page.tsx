@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { buildNav, NAV_ICONS, type NavItem } from "@/components/nav-config";
 import { PageHeader } from "@/components/page-header";
 import { signOut } from "@/app/login/actions";
+import { getUiMode } from "@/lib/data";
 
 export default async function MenuPage() {
   const profile = await requireProfile();
@@ -18,7 +19,7 @@ export default async function MenuPage() {
       .neq("requested_by", profile.id);
     pending = count ?? 0;
   }
-  const nav = buildNav(profile.role, pending);
+  const nav = buildNav(profile.role, pending, await getUiMode());
   const sections: { title: string; items: NavItem[] }[] = [
     { title: "業務", items: nav.main },
     ...(nav.manage.length ? [{ title: "管理", items: nav.manage }] : []),

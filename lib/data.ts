@@ -46,3 +46,9 @@ export async function signedPhotoUrls(paths: string[], expiresIn = 600): Promise
   for (const d of data ?? []) if (d.path && d.signedUrl) out[d.path] = toBrowserUrl(d.signedUrl);
   return out;
 }
+
+export async function getUiMode(): Promise<"simple" | "full"> {
+  const supabase = await createClient();
+  const { data } = await supabase.from("app_settings").select("ui_mode").maybeSingle();
+  return data?.ui_mode === "full" ? "full" : "simple";
+}

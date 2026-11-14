@@ -27,7 +27,7 @@ export default defineConfig({
     {
       name: "desktop",
       use: { ...devices["Desktop Chrome"], launchOptions: { executablePath } },
-      testMatch: /flow\.spec\.ts/,
+      testMatch: /(flow|gold)\.spec\.ts/,
     },
     {
       name: "mobile",

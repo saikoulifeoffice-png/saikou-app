@@ -41,6 +41,17 @@ export async function GET(req: NextRequest, ctx: { params: Promise<{ report: str
     if (error) return NextResponse.json({ error: "forbidden" }, { status: 403 });
     csv = toCsv(["従業員", "売上", "売上原価", "粗利益", "販売直接費", "純利益", "販売件数", "買取件数", "買取金額", "販売担当としての売上"],
       data.map((x) => [x.display_name, x.revenue, x.cost_of_sales, x.gross_profit, x.direct_expense, x.net_profit, x.sales_count, x.purchase_count, x.purchase_amount, x.sold_by_staff_revenue]));
+  } else if (report === "gold-timeseries") {
+    const g = grain === "month" ? "month" : "day";
+    const { data, error } = await supabase.rpc("pm_report_timeseries", { p_from: from, p_to: to, p_grain: g, p_staff: staffId });
+    if (error) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    csv = toCsv([g === "month" ? "月" : "日", "件数", "地金総額", "買取金額", "見込み利益"],
+      data.map((r) => [g === "month" ? r.bucket.slice(0, 7) : r.bucket, r.count, r.total_metal_value, r.paid_amount, r.expected_profit]));
+  } else if (report === "gold-staff") {
+    const { data, error } = await supabase.rpc("pm_report_by_staff", { p_from: from, p_to: to });
+    if (error) return NextResponse.json({ error: "forbidden" }, { status: 403 });
+    csv = toCsv(["従業員", "件数", "買取金額", "地金総額", "見込み利益"],
+      data.map((r) => [r.display_name, r.count, r.paid_amount, r.total_metal_value, r.expected_profit]));
   } else {
     return NextResponse.json({ error: "not found" }, { status: 404 });
   }

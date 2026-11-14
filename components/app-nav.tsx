@@ -1,10 +1,12 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { NAV_ICONS, type NavItem } from "@/components/nav-config";
+import { NAV_ICONS, type NavItem, type UiMode } from "@/components/nav-config";
 import { cn } from "@/lib/utils";
 
 function isActive(pathname: string, item: NavItem) {
+  // 「買取履歴」(/gold) は登録・相場・集計の各画面では非アクティブ
+  if (item.href === "/gold" && /^\/gold\/(new|prices|reports)/.test(pathname)) return false;
   if (item.href === "/sales" && pathname.startsWith("/sales/new")) return false;
   const keys = item.match ?? [item.href];
   return keys.some((k) => pathname === k || pathname.startsWith(`${k}/`));
@@ -44,15 +46,25 @@ export function Sidebar({ items, manage }: { items: NavItem[]; manage: NavItem[]
   );
 }
 
-export function BottomNav({ badge }: { badge: number }) {
+export function BottomNav({ badge, mode = "full" }: { badge: number; mode?: UiMode }) {
   const pathname = usePathname();
-  const items: NavItem[] = [
-    { href: "/home", label: "ホーム", icon: "home" },
-    { href: "/purchases/new", label: "買取", icon: "purchase", match: ["/purchases"] },
-    { href: "/items", label: "商品", icon: "items" },
-    { href: "/sales/new", label: "販売", icon: "sale", match: ["/sales"] },
-    { href: "/menu", label: "メニュー", icon: "menu", badge, match: ["/menu", "/funds", "/performance", "/approvals", "/dashboard", "/admin"] },
-  ];
+  const items: NavItem[] =
+    mode === "simple"
+      ? [
+          { href: "/gold/new", label: "買取", icon: "gold" },
+          { href: "/gold", label: "履歴", icon: "history" },
+          { href: "/gold/prices", label: "相場", icon: "prices" },
+          { href: "/gold/reports", label: "集計", icon: "dashboard" },
+          { href: "/menu", label: "メニュー", icon: "menu", badge, match: ["/menu", "/admin", "/account"] },
+        ]
+      : [
+          { href: "/home", label: "ホーム", icon: "home" },
+          { href: "/purchases/new", label: "買取", icon: "purchase", match: ["/purchases"] },
+          { href: "/items", label: "商品", icon: "items" },
+          { href: "/sales/new", label: "販売", icon: "sale", match: ["/sales"] },
+          { href: "/menu", label: "メニュー", icon: "menu", badge, match: ["/menu", "/funds", "/performance", "/approvals", "/dashboard", "/admin"] },
+        ];
+
   return (
     <nav
       className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-surface/95 backdrop-blur pb-safe lg:hidden"
