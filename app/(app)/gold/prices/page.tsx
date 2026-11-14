@@ -31,13 +31,19 @@ export default async function PricesPage({ searchParams }: { searchParams: Promi
     byDate.set(r.price_date, list);
   }
   const order = new Map(grades.map((g, i) => [g.code, i]));
+  // 選択日より前で直近の登録（「前回の相場をコピー」・変動チェック用）
+  const prevDate = [...byDate.keys()].filter((d) => d < date).sort().pop();
+  const previous = prevDate
+    ? { date: prevDate, prices: Object.fromEntries(byDate.get(prevDate)!.map((p) => [p.grade_code, String(p.unit_price)])) }
+    : null;
   const fmt = (v: number) => formatHundredths(parseHundredths(String(v)));
 
   return (
     <div className="space-y-4">
       <PageHeader title="参考相場の管理" description="日付・品位ごとの参考相場（円/g）。買取登録時に自動で適用されます" />
       <Alert tone="info" title="相場の取得について">
-        {sourceName} は公式に認められた自動取得方法が確認できていないため、代表・管理者が公開されている相場を確認して手動で登録します。
+        {sourceName} のサイトは外部からの自動取得を受け付けていない（アクセス拒否）ため、代表・管理者がサイトの相場を確認して登録します。
+        相場表をコピーして貼り付けると単価を自動で読み取れます。
         参考相場は見込み利益の計算用で、実際の売却価格ではありません。
       </Alert>
       {!(dayPrices ?? []).length && date === today && <Alert tone="warning">本日（{formatDate(today)}）の相場が未登録です。未登録の間は直近の過去日の相場が適用されます。</Alert>}
@@ -51,6 +57,7 @@ export default async function PricesPage({ searchParams }: { searchParams: Promi
               today={today}
               grades={grades}
               defaultSourceName={sourceName}
+              previous={previous}
               existing={(dayPrices ?? []).map((p) => ({ grade_code: p.grade_code, unit_price: String(Number(p.unit_price)), source_name: p.source_name, source_url: p.source_url, fetched_at: p.fetched_at, note: p.note }))}
             />
           </CardContent>

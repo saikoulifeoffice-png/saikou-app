@@ -104,3 +104,17 @@ test("相場未登録の品位は警告され、単価を手入力すれば登�
   await page.getByRole("button", { name: "登録する" }).click();
   await expect(page.getByText("買取を登録しました")).toBeVisible();
 });
+
+test("相場表の貼り付けで単価を自動入力して保存できる", async ({ page }) => {
+  await login(page, "owner", "/gold/new");
+  await page.goto("/gold/prices");
+  await expect(page.getByRole("link", { name: "ゴールドミセスの相場を開く" })).toHaveAttribute("href", "https://goldmrs.jp/");
+  await page.getByPlaceholder(/例:/).fill("Pt900 4,800円\nK10 8,900円\nSV925 120円");
+  await page.getByRole("button", { name: "読み取る" }).click();
+  await expect(page.getByText("3件を読み取りました")).toBeVisible();
+  await expect(page.getByLabel("Pt900の相場単価")).toHaveValue("4800");
+  await expect(page.getByLabel("K10の相場単価")).toHaveValue("8900");
+  await page.getByRole("button", { name: "保存", exact: true }).click();
+  await page.getByRole("button", { name: "保存する" }).click();
+  await expect(page.getByText(/件の相場を保存しました/)).toBeVisible();
+});
