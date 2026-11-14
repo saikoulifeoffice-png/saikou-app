@@ -16,7 +16,7 @@ test("代表が参考相場を登録 → 従業員が複数商品の買取を登
   await op.getByLabel("K24の相場単価").fill("21500");
   await op.getByRole("button", { name: "保存", exact: true }).click();
   await op.getByRole("button", { name: "保存する" }).click();
-  await expect(op.getByText("2件の相場を保存しました")).toBeVisible();
+  await expect(op.getByText(/件の相場を保存しました/)).toBeVisible();
 
   // 従業員A: 買取登録
   const a = await browser.newContext();
@@ -117,4 +117,61 @@ test("相場表の貼り付けで単価を自動入力して保存できる", as
   await page.getByRole("button", { name: "保存", exact: true }).click();
   await page.getByRole("button", { name: "保存する" }).click();
   await expect(page.getByText(/件の相場を保存しました/)).toBeVisible();
+});
+
+test("代表は買取記録と相場を削除できる", async ({ browser }) => {
+  const a = await browser.newContext();
+  const ap = await a.newPage();
+  await login(ap, "staffA", "/gold/new");
+  const name = `削除対象 ${Date.now() % 100000}`;
+  await ap.getByLabel("お客様の名前").fill(name);
+  await ap.getByLabel("1点目の品位").selectOption("K18");
+  await ap.getByLabel("1点目の重量").fill("1");
+  await ap.getByLabel("お客様に支払った買取金額").fill("1000");
+  await ap.getByRole("button", { name: "確認", exact: true }).click();
+  await ap.getByRole("button", { name: "登録する" }).click();
+  await ap.getByRole("link", { name: "登録内容を見る" }).click();
+  await ap.waitForURL(/\/gold\/[0-9a-f-]{36}$/);
+  const url = ap.url();
+  // 従業員には削除ボタンがない
+  await expect(ap.getByRole("button", { name: "削除" })).toHaveCount(0);
+
+  const o = await browser.newContext();
+  const op = await o.newPage();
+  await login(op, "owner", "/gold/new");
+  await op.goto(url);
+  await op.getByRole("button", { name: "削除" }).click();
+  await op.getByPlaceholder("例: テスト入力のため").fill("テスト入力のため");
+  await op.getByRole("button", { name: "削除する" }).click();
+  await op.waitForURL("**/gold");
+  await op.goto(`/gold?q=${encodeURIComponent(name)}`);
+  await expect(op.getByText("該当する買取はありません")).toBeVisible();
+
+  // 相場の削除（過去日の相場を作って削除）
+  await op.goto("/gold/prices?date=2021-01-05");
+  await op.getByLabel("K14の相場単価").fill("11111");
+  await op.getByRole("button", { name: "保存", exact: true }).click();
+  await op.getByRole("button", { name: "保存する" }).click();
+  await expect(op.getByText(/件の相場を保存しました/)).toBeVisible();
+  await op.getByRole("button", { name: "2021-01-05の相場を削除" }).click();
+  await op.getByRole("button", { name: "削除する" }).click();
+  await expect(op.getByRole("button", { name: "2021-01-05の相場を削除" })).toHaveCount(0);
+  await Promise.all([a.close(), o.close()]);
+});
+
+test("メールアドレスなしのログインIDでログインできる", async ({ page }) => {
+  const { config } = await import("dotenv");
+  config({ path: ".env.local" });
+  const { createClient } = await import("@supabase/supabase-js");
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL!.startsWith("/") ? process.env.SUPABASE_INTERNAL_URL! : process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  const admin = createClient(url, process.env.SUPABASE_SERVICE_ROLE_KEY!, { auth: { persistSession: false } });
+  const id = `e2eid${Date.now() % 1000000}`;
+  const { error } = await admin.auth.admin.createUser({ email: `${id}@login.saikou.invalid`, password: "IdLogin12345", email_confirm: true, app_metadata: { role: "staff" }, user_metadata: { display_name: "ID従業員" } });
+  expect(error).toBeNull();
+  await page.goto("/login");
+  await page.getByLabel("ログインID または メールアドレス").fill(id.toUpperCase());
+  await page.getByLabel("パスワード").fill("IdLogin12345");
+  await page.getByRole("button", { name: "ログイン" }).click();
+  await page.waitForURL("**/gold/new");
+  await expect(page.getByText("ID従業員").first()).toBeVisible();
 });

@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Yen } from "@/components/yen";
 import { CreateStaffButton, StaffRowActions } from "./staff-client";
+import { displayLoginId, isLoginIdAccount } from "@/lib/auth/login-id";
 
 export const metadata = { title: "従業員・権限管理" };
 
@@ -28,7 +29,7 @@ export default async function StaffPage() {
                   <Badge tone={s.role === "owner" ? "gold" : s.role === "admin" ? "neutral" : "muted"}>{ROLE_LABELS[s.role]}</Badge>
                   {!s.is_active && <Badge tone="negative">無効</Badge>}
                   {s.id === me.id && <Badge tone="muted">自分</Badge>}</p>
-                <p className="truncate text-xs text-muted">{s.email}・登録 {formatDate(s.created_at)}</p>
+                <p className="truncate text-xs text-muted">{isLoginIdAccount(s.email) ? "ログインID" : "メール"}: <span className="font-semibold text-foreground">{displayLoginId(s.email)}</span>・登録 {formatDate(s.created_at)}</p>
               </div>
               <div className="text-right text-sm"><p className="text-xs text-muted">準備金</p><Yen value={s.reserve_balance} className="font-semibold" /></div>
               {isOwner && s.id !== me.id && <StaffRowActions id={s.id} name={s.display_name} role={s.role} active={s.is_active} />}

@@ -785,6 +785,12 @@ isOneToOne: false
               "cost_excl": number,"cost_incl": number,"direct_expense_excl": number,"direct_expense_incl": number,"id": string,"item_id": string,"item_name": string,"item_no": string,"line_no": number,"profit_excl": number,"profit_incl": number,"purchaser_name": string,"purchaser_staff_id": string,"quantity": number,"returned_from_sale_item_id": string,"returned_quantity": number,"revenue_excl": number,"revenue_incl": number,"tax_category": Database["public"]['Enums']["tax_category"]
             }[]
                            },
+"pm_delete_market_prices":
+{ Args: { "p_date": string,"p_grade"?: string }; Returns: number
+                           },
+"pm_delete_purchase":
+{ Args: { "p_id": string,"p_reason": string }; Returns: undefined
+                           },
 "pm_prices_for_date":
 { Args: { "p_date": string }; Returns: {
               "fetched_at": string,"grade_code": string,"is_exact_date": boolean,"market_price_id": string,"price_date": string,"source_name": string,"unit_price": number

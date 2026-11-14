@@ -35,7 +35,7 @@ export default async function GoldDetailPage({ params }: { params: Promise<{ id:
   return (
     <div className="space-y-4">
       <PageHeader title={`${d.customer_name} 様`} description={`${formatDate(d.purchased_on)}・${d.purchase_no}`} back={{ href: "/gold", label: "買取履歴" }}
-        actions={isManager(me) && d.status === "active" ? <VoidButton id={id} /> : undefined} />
+        actions={isManager(me) ? <VoidButton id={id} canVoid={d.status === "active"} /> : undefined} />
       {d.status === "voided" && <Alert tone="error" title="この買取は取消済みです">{formatDateTime(d.voided_at)}・理由: {d.void_reason}</Alert>}
       <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard label="地金総額" value={d.total_metal_value} highlight />

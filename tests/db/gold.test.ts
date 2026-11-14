@@ -200,3 +200,37 @@ describe("SQL と TypeScript の計算一致", () => {
     rows.forEach((r, i) => expect(r.v).toBe(metalValue(cases[i].w, cases[i].p)));
   });
 });
+
+describe("削除（代表・管理者）", () => {
+  it("買取記録を削除でき、内容は監査ログに残る。従業員は削除できない", async () => {
+    const r = await buy(staffA, [{ grade_code: "K18", weight_g: "1" }, { grade_code: "K24", weight_g: "1" }], { paid_amount: 1, customer_name: "削除 テスト" });
+    await expectError(rpc(staffA, "pm_delete_purchase", r.purchase_id, "誤登録"), "FORBIDDEN");
+    await expectError(rpc(owner, "pm_delete_purchase", r.purchase_id, ""), "VALIDATION");
+    await rpc(owner, "pm_delete_purchase", r.purchase_id, "テスト入力のため");
+    expect(await superQuery("select id from public.pm_purchases where id = $1", [r.purchase_id])).toEqual([]);
+    expect(await superQuery("select id from public.pm_purchase_items where purchase_id = $1", [r.purchase_id])).toEqual([]);
+    const log = await superQuery("select actor_id, before_data, context from public.audit_logs where action = 'pm_purchase_delete' and record_id = $1", [r.purchase_id]);
+    expect(log[0].actor_id).toBe(owner.id);
+    expect(log[0].before_data.customer_name).toBe("削除 テスト");
+    expect(log[0].context.items).toHaveLength(2);
+    expect(log[0].context.reason).toBe("テスト入力のため");
+    // 削除用の関数以外からは引き続き削除できない
+    const other = await buy(staffA, [{ grade_code: "K18", weight_g: "1" }], { paid_amount: 1 });
+    await expectError(superQuery("delete from public.pm_purchases where id = $1", [other.purchase_id]), /IMMUTABLE|violates foreign key/);
+  });
+
+  it("相場を削除しても過去の買取記録の単価・金額は残る", async () => {
+    const day = "2020-03-03";
+    await rpc(owner, "pm_upsert_market_prices", { price_date: day, prices: [{ grade_code: "K14", unit_price: 12000 }, { grade_code: "K22", unit_price: 19000 }] });
+    const r = await buy(staffA, [{ grade_code: "K14", weight_g: "2" }], { purchased_on: day, paid_amount: 0 });
+    await expectError(rpc(staffA, "pm_delete_market_prices", day, "K14"), "FORBIDDEN");
+    expect(await rpc(owner, "pm_delete_market_prices", day, "K14")).toBe(1);
+    const i = await superQuery("select unit_price, metal_value, market_price_id, market_price_date::text d from public.pm_purchase_items where purchase_id = $1", [r.purchase_id]);
+    expect(Number(i[0].unit_price)).toBe(12000);
+    expect(i[0].metal_value).toBe(24000);
+    expect(i[0].market_price_id).toBeNull();
+    expect(i[0].d).toBe(day);
+    expect(await rpc(owner, "pm_delete_market_prices", day, null)).toBe(1);
+    await expectError(rpc(owner, "pm_delete_market_prices", day, null), "NOT_FOUND");
+  });
+});

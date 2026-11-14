@@ -11,8 +11,8 @@ export function LoginForm({ next }: { next?: string }) {
     <form action={action} className="space-y-4">
       {state.error && <Alert tone="error">{state.error}</Alert>}
       <input type="hidden" name="next" value={next ?? ""} />
-      <Field label="メールアドレス" htmlFor="email">
-        <Input id="email" name="email" type="email" autoComplete="username" required defaultValue={state.email} inputMode="email" />
+      <Field label="ログインID または メールアドレス" htmlFor="email">
+        <Input id="email" name="email" type="text" autoComplete="username" autoCapitalize="none" autoCorrect="off" spellCheck={false} required defaultValue={state.email} />
       </Field>
       <Field label="パスワード" htmlFor="password">
         <Input id="password" name="password" type="password" autoComplete="current-password" required />

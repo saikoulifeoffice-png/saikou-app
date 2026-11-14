@@ -17,7 +17,7 @@ test("誤ったパスワードではログインできない", async ({ page }) 
   await page.getByLabel("メールアドレス").fill(users().users.staffA.email);
   await page.getByLabel("パスワード").fill("wrong-password-1");
   await page.getByRole("button", { name: "ログイン" }).click();
-  await expect(page.getByText("メールアドレスまたはパスワードが正しくありません")).toBeVisible();
+  await expect(page.getByText("ログインIDまたはパスワードが正しくありません")).toBeVisible();
 });
 
 test("買取登録（写真付き）→ 在庫 → 他の従業員が販売 → 実績は買取担当に帰属", async ({ browser }) => {

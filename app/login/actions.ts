@@ -2,9 +2,10 @@
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { toAuthEmail } from "@/lib/auth/login-id";
 
 const schema = z.object({
-  email: z.email("メールアドレスの形式が正しくありません"),
+  email: z.string().trim().min(1, "ログインIDまたはメールアドレスを入力してください"),
   password: z.string().min(1, "パスワードを入力してください"),
   next: z.string().optional(),
 });
@@ -17,10 +18,12 @@ export interface LoginState {
 export async function signIn(_: LoginState, formData: FormData): Promise<LoginState> {
   const parsed = schema.safeParse(Object.fromEntries(formData));
   if (!parsed.success) return { error: parsed.error.issues[0].message, email: String(formData.get("email") ?? "") };
+  const authEmail = toAuthEmail(parsed.data.email);
+  if (!authEmail) return { error: "ログインIDまたはメールアドレスの形式が正しくありません", email: parsed.data.email };
   const supabase = await createClient();
-  const { data, error } = await supabase.auth.signInWithPassword({ email: parsed.data.email, password: parsed.data.password });
+  const { data, error } = await supabase.auth.signInWithPassword({ email: authEmail, password: parsed.data.password });
   if (error || !data.user) {
-    return { error: "メールアドレスまたはパスワードが正しくありません", email: parsed.data.email };
+    return { error: "ログインIDまたはパスワードが正しくありません", email: parsed.data.email };
   }
   const { data: profile } = await supabase.from("profiles").select("is_active").eq("id", data.user.id).maybeSingle();
   if (!profile?.is_active) {

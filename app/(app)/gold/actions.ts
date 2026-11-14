@@ -67,3 +67,25 @@ export async function saveMarketPrices(input: GoldPricesInput): Promise<ActionRe
   revalidatePath("/gold/prices");
   return { ok: true, data: data as number };
 }
+
+export async function deleteGoldPurchase(id: string, reason: string): Promise<ActionResult> {
+  await requireManager();
+  if (!uuidSchema.safeParse(id).success) return fail("VALIDATION", "IDが不正です");
+  if (!reason.trim()) return fail("VALIDATION", "削除理由を入力してください");
+  const supabase = await createClient();
+  const { error } = await supabase.rpc("pm_delete_purchase", { p_id: id, p_reason: reason });
+  if (error) return { ok: false, error: toAppError(error) };
+  revalidatePath("/gold");
+  revalidatePath("/gold/reports");
+  return { ok: true, data: undefined };
+}
+
+export async function deleteMarketPrices(date: string): Promise<ActionResult<number>> {
+  await requireManager();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return fail("VALIDATION", "日付が不正です");
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("pm_delete_market_prices", { p_date: date });
+  if (error) return { ok: false, error: toAppError(error) };
+  revalidatePath("/gold/prices");
+  return { ok: true, data: data as number };
+}

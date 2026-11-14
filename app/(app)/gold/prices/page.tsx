@@ -9,6 +9,7 @@ import { Alert } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/empty-state";
 import { PricesForm } from "./prices-form";
+import { DeletePricesButton } from "./delete-prices-button";
 
 export const metadata = { title: "相場管理" };
 
@@ -74,7 +75,8 @@ export default async function PricesPage({ searchParams }: { searchParams: Promi
                 <li key={d} className="rounded-lg border border-border p-3">
                   <div className="mb-2 flex flex-wrap items-center justify-between gap-2 text-sm">
                     <a href={`/gold/prices?date=${d}`} className="font-bold text-navy-700 hover:underline">{formatDate(d)}</a>
-                    <span className="text-xs text-muted">{list[0].source_name}・取得 {formatDateTime(list[0].fetched_at)}</span>
+                    <span className="flex items-center gap-2 text-xs text-muted">{list[0].source_name}・取得 {formatDateTime(list[0].fetched_at)}
+                      {isManager(me) && <DeletePricesButton date={d} />}</span>
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {list.sort((a, b) => (order.get(a.grade_code) ?? 0) - (order.get(b.grade_code) ?? 0)).map((p) => (
