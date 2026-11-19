@@ -1,0 +1,563 @@
+<style>
+/* ===== saikou トップ v2（下書き）。すべて .skn 配下に限定。既存ページへの影響なし ===== */
+body:has(.skn) .page-header,body:has(.skn) .breadcrumb{display:none}
+body:has(.skn) .site-body{padding-top:0}
+body:has(.skn) .site-body .container{max-width:none;padding-left:0;padding-right:0}
+body:has(.skn) .main-section{margin-bottom:0;width:100%!important;max-width:none!important;flex:0 0 100%!important}
+body:has(.skn) .sub-section{display:none!important}
+body:has(.skn){background:#fff!important}
+.skn{background:#fff}
+.skn section{background:#fff}
+.skn h1,.skn h2,.skn h3{border:0!important;padding:0!important;background:none!important;box-shadow:none!important}
+.skn h1:before,.skn h1:after,.skn h2:before,.skn h2:after,.skn h3:before,.skn h3:after{content:none!important;display:none!important}
+.skn table,.skn th,.skn td{border-left:0!important;border-right:0!important;border-top:0!important}
+body:has(.skn) .site-body-container{display:block}
+/* 1. ヘッダーのお問い合わせボタン：新配色（公開時に全ページ共通CSSへ移す） */
+body:has(.skn) .sk-hbtn a{border-radius:8px!important}
+body:has(.skn) .sk-hbtn .tel{background:#1F3A5F!important;color:#fff!important}
+body:has(.skn) .sk-hbtn .line{background:#06C755!important;color:#fff!important}
+body:has(.skn) .sk-hbtn .form{background:#E9742B!important;color:#fff!important}
+body:has(.skn) .sk-hbtn .area{background:#fff!important;color:#1F3A5F!important;border:2px solid #1F3A5F!important}
+body:has(.skn) .sk-fbar .tel{background:#1F3A5F!important}
+body:has(.skn) .sk-fbar .line{background:#06C755!important}
+body:has(.skn) .sk-fbar .form{background:#E9742B!important}
+.skn{--nv:#1F3A5F;--nv2:#2C5282;--sk:#4FA3D9;--pl:#EEF7FC;--gr:#3BAA6E;--gr2:#E8F5EE;--ln:#06C755;--or:#E9742B;--tx:#2B3340;--mt:#5E6B7A;--bd:#D7E3EE;
+ color:var(--tx);font-size:16px;line-height:1.8;letter-spacing:.02em;font-feature-settings:"palt"}
+.skn *{box-sizing:border-box}
+.skn img{max-width:100%;height:auto;display:block}
+.skn a{text-decoration:none}
+.skn h1,.skn h2,.skn h3,.skn p{margin:0}
+.skn h2,.skn h3,.skn .bal{text-wrap:balance;word-break:auto-phrase}
+.skn p{text-wrap:pretty;line-break:strict}
+.skn .in{max-width:1120px;margin:0 auto;padding:0 16px}
+.skn section{padding:56px 0}
+.skn section.alt{background:var(--pl)}
+.skn .eb{display:block;font:800 13px/1 Montserrat,sans-serif;letter-spacing:.14em;color:var(--sk);margin-bottom:10px}
+.skn .st{font-size:25px;line-height:1.45;font-weight:800;color:var(--nv)}
+.skn .ld{color:var(--mt);margin-top:12px}
+.skn .hd{text-align:center;margin-bottom:32px}
+.skn .note{font-size:13px;color:var(--mt);line-height:1.7}
+.skn .tbc{display:inline-block;background:#FFF2CC;color:#8A5A00;border:1px dashed #E0B040;font-size:12px;font-weight:700;padding:1px 8px;border-radius:4px;margin-left:6px;vertical-align:middle;line-height:1.6}
+.skn .imgl{position:absolute;left:8px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;padding:2px 8px;border-radius:3px}
+/* buttons */
+.skn .btns{display:grid;gap:10px}
+.skn .bt{display:flex;align-items:center;justify-content:center;gap:10px;min-height:58px;padding:10px 16px;border-radius:10px;font-weight:800;font-size:16px;line-height:1.3;color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.15);transition:filter .15s}
+.skn .bt:hover{filter:brightness(1.07)}
+.skn .bt small{display:block;font-size:11px;font-weight:600;opacity:.92}
+.skn .bt svg{width:24px;height:24px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.skn .bt.tel{background:var(--nv)}
+.skn .bt.tel b{font:800 22px/1.1 Montserrat,sans-serif;letter-spacing:.03em}
+.skn .bt.line{background:var(--ln)}
+.skn .bt.form{background:var(--or)}
+.skn .bt.area{background:#fff;color:var(--nv);border:2px solid var(--nv);box-shadow:none}
+/* 2 FV */
+.skn .fv{position:relative;padding:28px 0 32px;background:linear-gradient(180deg,#F4FAFE 0%,#fff 100%);overflow:hidden}
+.skn .fv .grid{display:grid;gap:22px}
+.skn .fv .pre{display:inline-flex;align-items:center;gap:6px;background:var(--nv);color:#fff;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px}
+.skn .fv h1{font-size:26px;line-height:1.42;font-weight:900;color:var(--nv);margin-top:14px;letter-spacing:.01em}
+.skn .fv h1 span{display:inline-block}
+.skn .fv h1 em{font-style:normal;color:var(--gr)}
+.skn .fv .sub{margin-top:12px;font-size:16px;font-weight:700;color:var(--tx)}
+.skn .fv .svc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:18px}
+.skn .fv .svc a{display:flex;flex-direction:column;align-items:center;gap:4px;background:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 4px;font-size:12px;font-weight:800;color:var(--nv);text-align:center;line-height:1.35}
+.skn .fv .svc i{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--pl)}
+.skn .fv .svc svg{width:20px;height:20px;fill:none;stroke:var(--nv2);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.skn .fv .bd{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.skn .fv .bd span{font-size:13px;font-weight:700;color:var(--nv);background:#fff;border:1.5px solid var(--sk);border-radius:6px;padding:3px 10px}
+.skn .fv .btns{margin-top:18px;grid-template-columns:1fr 1fr}
+.skn .fv .btns .tel{grid-column:1/-1}
+.skn .fv .btns .line,.skn .fv .btns .form{font-size:15px;padding:10px 8px;gap:6px;white-space:nowrap}
+.skn .fv .btns .line svg,.skn .fv .btns .form svg{width:20px;height:20px}
+.skn .fv .hours{font-size:13px;color:var(--mt);margin-top:8px;text-align:center}
+.skn .fv .media{position:relative;border-radius:14px;overflow:hidden;display:none}
+.skn .fv .media video,.skn .fv .media img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+/* 3 four services */
+.skn .four{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.skn .card{background:#fff;border:1px solid var(--bd);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;color:var(--tx);box-shadow:0 2px 10px rgba(31,58,95,.06)}
+.skn .card .ph{position:relative;aspect-ratio:4/3;background:var(--pl)}
+.skn .card .ph img{width:100%;height:100%;object-fit:cover}
+.skn .card .bo{padding:12px 12px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.skn .card h3{font-size:16px;line-height:1.4;color:var(--nv);font-weight:800}
+.skn .card ul{margin:0;padding:0;list-style:none;font-size:13px;color:var(--mt);line-height:1.6}
+.skn .card li:before{content:"・"}
+.skn .card .more{margin-top:auto;font-size:13px;font-weight:800;color:var(--sk)}
+.skn .tag{position:absolute;left:8px;top:8px;background:var(--nv);color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:4px}
+/* 4 worries */
+.skn .wr{display:grid;gap:10px}
+.skn .wr li{list-style:none;background:#fff;border-radius:12px;padding:14px 16px 14px 46px;position:relative;font-weight:700;color:var(--nv);border:1px solid var(--bd)}
+.skn .wr li:before{content:"";position:absolute;left:16px;top:18px;width:18px;height:18px;border-radius:4px;border:2px solid var(--sk)}
+.skn .wr li:after{content:"";position:absolute;left:21px;top:20px;width:6px;height:11px;border:solid var(--gr);border-width:0 3px 3px 0;transform:rotate(45deg)}
+.skn .wr li small{display:block;font-size:12px;color:var(--sk);font-weight:800}
+.skn ul.wr{margin:0;padding:0}
+.skn .ans{margin-top:22px;background:var(--nv);color:#fff;border-radius:14px;padding:22px 18px;text-align:center}
+.skn .ans h3{font-size:21px;line-height:1.5}
+.skn .ans h3 em{font-style:normal;color:#9FE2BF}
+.skn .ans p{margin-top:8px;font-size:15px;opacity:.95}
+/* 5 about */
+.skn .ab{display:grid;gap:20px;align-items:center}
+.skn .ab .ph{border-radius:14px;overflow:hidden;position:relative}
+.skn .ab .kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:18px}
+.skn .ab .kv div{background:var(--pl);border-radius:10px;padding:10px 6px;text-align:center}
+.skn .ab .kv b{display:block;font:800 24px/1.2 Montserrat,"Noto Sans JP",sans-serif;color:var(--nv)}
+.skn .ab .kv span{font-size:12px;color:var(--mt);line-height:1.4;display:block}
+/* 6 area */
+.skn .ar{background:#fff;border-radius:14px;padding:18px 16px;border:1px solid var(--bd)}
+.skn .ar details{border-bottom:1px solid var(--bd)}
+.skn .ar summary{cursor:pointer;padding:13px 4px;font-weight:800;color:var(--nv);list-style:none;display:flex;justify-content:space-between;align-items:center}
+.skn .ar summary::-webkit-details-marker{display:none}
+.skn .ar summary:after{content:"＋";color:var(--sk);font-weight:900}
+.skn .ar details[open] summary:after{content:"－"}
+.skn .ar .ct{display:flex;flex-wrap:wrap;gap:6px;padding:0 0 14px}
+.skn .ar .ct a{font-size:14px;font-weight:700;color:var(--nv2);background:var(--pl);border-radius:6px;padding:6px 10px}
+.skn .ar .ct a:hover{background:#DCEFFA}
+.skn .sa-search{margin-bottom:12px}
+/* 7 service detail */
+.skn .sd{display:grid;gap:16px}
+.skn .sdi{background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--bd);display:grid}
+.skn .sdi .ph{position:relative;aspect-ratio:16/9}
+.skn .sdi .ph img{width:100%;height:100%;object-fit:cover}
+.skn .sdi .bo{padding:18px 16px}
+.skn .sdi .no{font:800 12px/1 Montserrat,sans-serif;color:var(--sk);letter-spacing:.12em}
+.skn .sdi h3{font-size:21px;color:var(--nv);margin:6px 0 8px;line-height:1.4}
+.skn .chips{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}
+.skn .chips span{font-size:13px;font-weight:700;background:var(--gr2);color:#21754A;border-radius:999px;padding:3px 10px}
+.skn .sdi .pr{font-size:14px;color:var(--mt)}
+.skn .sdi .pr b{font-size:22px;color:var(--or);font-family:Montserrat,sans-serif}
+.skn .lk{display:inline-flex;align-items:center;gap:6px;margin-top:12px;font-weight:800;color:#fff;background:var(--nv2);padding:10px 18px;border-radius:8px;font-size:15px}
+/* 8 reasons */
+.skn .rs{display:grid;grid-template-columns:1fr;gap:12px}
+.skn .rsi{background:#fff;border-radius:14px;padding:16px;display:grid;grid-template-columns:56px 1fr;gap:12px;align-items:start;border:1px solid var(--bd)}
+.skn .rsi .ic{width:56px;height:56px;border-radius:50%;background:var(--pl);display:grid;place-items:center;position:relative}
+.skn .rsi .ic svg{width:28px;height:28px;fill:none;stroke:var(--nv2);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.skn .rsi .ic b{position:absolute;top:-4px;left:-4px;background:var(--gr);color:#fff;font:800 11px/1 Montserrat,sans-serif;border-radius:999px;padding:4px 6px}
+.skn .rsi h3{font-size:17px;color:var(--nv);line-height:1.45}
+.skn .rsi p{font-size:14px;color:var(--mt);margin-top:4px;line-height:1.7}
+/* 9 voice */
+.skn .vc-empty{background:#fff;border:2px dashed var(--bd);border-radius:14px;padding:24px 16px;text-align:center;color:var(--mt)}
+/* 10 price */
+.skn .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:-1px;position:relative;z-index:1}
+.skn .tabs label{cursor:pointer;text-align:center;padding:11px 4px;font-size:13px;font-weight:800;color:var(--nv);background:#DCEAF5;border-radius:10px 10px 0 0;line-height:1.3}
+.skn .ptab{display:none}
+.skn .pp{display:none;background:#fff;border:1px solid var(--bd);border-radius:0 0 14px 14px;padding:18px 14px}
+.skn #pt1:checked~.tabs label[for=pt1],.skn #pt2:checked~.tabs label[for=pt2],.skn #pt3:checked~.tabs label[for=pt3],.skn #pt4:checked~.tabs label[for=pt4]{background:#fff;color:var(--or);box-shadow:inset 0 3px 0 var(--or)}
+.skn #pt1:checked~.pp1,.skn #pt2:checked~.pp2,.skn #pt3:checked~.pp3,.skn #pt4:checked~.pp4{display:block}
+.skn table.pt{width:100%;border-collapse:collapse;font-size:15px}
+.skn table.pt th,.skn table.pt td{padding:12px 8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:middle}
+.skn table.pt thead th{background:var(--nv);color:#fff;font-size:13px}
+.skn table.pt td.y{text-align:right;font-weight:800;color:var(--or);white-space:nowrap}
+.skn table.pt td.y b{font:800 22px/1 Montserrat,sans-serif}
+.skn .pp .note{margin-top:10px}
+.skn .pp .lk{margin-top:14px}
+/* 11 works */
+.skn .wk{display:grid;grid-template-columns:1fr;gap:14px}
+.skn .wki{background:#fff;border-radius:14px;overflow:hidden;border:1px solid var(--bd)}
+.skn .wki .ba{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:#fff}
+.skn .wki .ba div{position:relative;aspect-ratio:3/4}
+.skn .wki .ba.one{grid-template-columns:1fr}
+.skn .wki .ba.one div{aspect-ratio:16/10}
+.skn .wki .ba img{width:100%;height:100%;object-fit:cover}
+.skn .wki .ba em{position:absolute;top:8px;left:8px;font-style:normal;font-size:12px;font-weight:800;color:#fff;background:var(--nv);padding:2px 10px;border-radius:4px}
+.skn .wki .ba div+div em{background:var(--gr)}
+.skn .wki .bo{padding:14px 16px}
+.skn .wki h3{font-size:16px;color:var(--nv)}
+.skn .wki dl{display:grid;grid-template-columns:auto 1fr;gap:2px 12px;margin:8px 0 0;font-size:13px}
+.skn .wki dt{color:var(--mt)}
+.skn .wki dd{margin:0;font-weight:700}
+/* 12 kaitori flow */
+.skn .kf{display:grid;gap:8px;counter-reset:k}
+.skn .kf li{list-style:none;background:#fff;border-radius:12px;padding:14px 14px 14px 58px;position:relative;border:1px solid var(--bd)}
+.skn .kf li:before{counter-increment:k;content:counter(k);position:absolute;left:14px;top:14px;width:32px;height:32px;border-radius:50%;background:var(--nv);color:#fff;font:800 15px/32px Montserrat,sans-serif;text-align:center}
+.skn .kf li.hl{background:var(--gr2);border-color:#A9D9BE}
+.skn .kf li.hl:before{background:var(--gr)}
+.skn .kf h3{font-size:16px;color:var(--nv)}
+.skn .kf p{font-size:14px;color:var(--mt)}
+.skn ol.kf{margin:0;padding:0}
+.skn .calc{margin-top:18px;background:#fff;border:2px solid var(--gr);border-radius:14px;padding:18px 16px}
+.skn .calc h3{font-size:17px;color:var(--nv);text-align:center}
+.skn .calc .eq{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:6px;margin-top:12px;text-align:center}
+.skn .calc .eq div{background:var(--pl);border-radius:10px;padding:10px 4px}
+.skn .calc .eq div.res{background:var(--gr2)}
+.skn .calc .eq span{display:block;font-size:11px;color:var(--mt);line-height:1.4}
+.skn .calc .eq b{font:800 19px/1.3 Montserrat,"Noto Sans JP",sans-serif;color:var(--nv)}
+.skn .calc .eq div.res b{color:#21754A}
+.skn .calc .op{font-weight:900;color:var(--mt);font-size:18px}
+.skn .combo{margin-top:16px;display:grid;gap:10px}
+.skn .combo div{background:#fff;border-radius:12px;padding:14px 16px;border-left:5px solid var(--sk)}
+.skn .combo b{color:var(--nv)}
+/* 13 flow */
+.skn .fl{display:grid;gap:10px;margin:0;padding:0}
+.skn .fl li{list-style:none;display:grid;grid-template-columns:64px 1fr;gap:12px;background:#fff;border-radius:12px;padding:14px;border:1px solid var(--bd)}
+.skn .fl .n{background:var(--pl);border-radius:10px;text-align:center;padding:8px 0;font:800 11px/1.2 Montserrat,sans-serif;color:var(--sk)}
+.skn .fl .n b{display:block;font-size:22px;color:var(--nv)}
+.skn .fl h3{font-size:16px;color:var(--nv)}
+.skn .fl p{font-size:14px;color:var(--mt)}
+/* 14 faq */
+.skn .fq details{background:#fff;border-radius:12px;margin-bottom:8px;border:1px solid var(--bd)}
+.skn .fq summary{cursor:pointer;list-style:none;padding:14px 44px 14px 48px;position:relative;font-weight:800;color:var(--nv);line-height:1.6}
+.skn .fq summary::-webkit-details-marker{display:none}
+.skn .fq summary:before{content:"Q";position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--nv);color:#fff;font:800 14px/26px Montserrat,sans-serif;text-align:center}
+.skn .fq summary:after{content:"＋";position:absolute;right:16px;top:14px;color:var(--sk)}
+.skn .fq details[open] summary:after{content:"－"}
+.skn .fq .a{padding:0 16px 16px 48px;position:relative;color:var(--tx);font-size:15px}
+.skn .fq .a:before{content:"A";position:absolute;left:14px;top:0;width:26px;height:26px;border-radius:50%;background:var(--gr);color:#fff;font:800 14px/26px Montserrat,sans-serif;text-align:center}
+/* 15 company */
+.skn .co{display:grid;gap:20px}
+.skn .msg{background:#fff;border-radius:14px;padding:20px 18px;border:1px solid var(--bd)}
+.skn .msg h3{font-size:20px;color:var(--nv);line-height:1.5}
+.skn .msg p{margin-top:10px;font-size:15px}
+.skn .msg .sg{text-align:right;margin-top:12px;font-weight:800;color:var(--nv)}
+.skn .msg .sg small{display:block;font-weight:600;color:var(--mt);font-size:12px}
+.skn table.ct{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;font-size:14px}
+.skn table.ct th,.skn table.ct td{padding:11px 12px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}
+.skn table.ct th{width:7.5em;background:var(--pl);color:var(--nv);font-weight:800}
+/* CTA band (common part) */
+.skn .cta{background:linear-gradient(135deg,var(--nv) 0%,#24507A 100%);color:#fff;padding:36px 0}
+.skn .cta h2{font-size:22px;line-height:1.5;text-align:center;font-weight:800}
+.skn .cta .pts{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin:14px 0 18px}
+.skn .cta .pts span{font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:3px 12px}
+.skn .cta .btns{max-width:860px;margin:0 auto;grid-template-columns:1fr}
+.skn .cta .bt.tel{background:#fff;color:var(--nv)}
+.skn .cta .hours{text-align:center;font-size:13px;opacity:.85;margin-top:10px}
+.skn .cta.last{padding:56px 0}
+.skn .cta .reas{max-width:860px;margin:0 auto 18px;font-size:15px;text-align:center;opacity:.95}
+/* ===== tablet / PC ===== */
+@media (min-width:768px){
+ .skn section{padding:88px 0}
+ .skn .st{font-size:32px}
+ .skn .hd{margin-bottom:44px}
+ .skn .fv{padding:48px 0 56px}
+ .skn .fv .grid{grid-template-columns:1.05fr 1fr;align-items:center;gap:40px}
+ .skn .fv h1{font-size:40px}
+ .skn .fv .media{display:block}
+ .skn .fv .btns{grid-template-columns:1fr 1fr}
+ .skn .four{grid-template-columns:repeat(4,1fr);gap:18px}
+ .skn .card h3{font-size:18px}
+ .skn ul.wr{grid-template-columns:1fr 1fr}
+ .skn .ab{grid-template-columns:1fr 1fr;gap:44px}
+ .skn .sd{grid-template-columns:1fr 1fr;gap:22px}
+ .skn .rs{grid-template-columns:repeat(3,1fr);gap:16px}
+ .skn .rsi{grid-template-columns:1fr;text-align:center;justify-items:center;padding:24px 18px}
+ .skn .wk{grid-template-columns:repeat(3,1fr);gap:18px}
+ .skn ol.kf{grid-template-columns:repeat(3,1fr)}
+ .skn .combo{grid-template-columns:1fr 1fr}
+ .skn ol.fl{grid-template-columns:repeat(5,1fr)}
+ .skn .fl li{grid-template-columns:1fr;text-align:center}
+ .skn .co{grid-template-columns:1.1fr 1fr;align-items:start}
+ .skn .cta h2{font-size:28px}
+ .skn .cta .btns{grid-template-columns:1.3fr 1fr 1fr}
+ .skn .tabs label{font-size:15px;padding:14px 6px}
+ .skn .pp{padding:26px 28px}
+ .skn .calc .eq b{font-size:26px}
+}
+@media (min-width:1024px){.skn .fv h1{font-size:44px}}
+</style>
+
+<div class="skn">
+
+<!-- ===== 2. ファーストビュー ===== -->
+<section class="fv" aria-labelledby="skn-h1">
+<div class="in grid">
+<div>
+<span class="pre">さいたま市中央区の会社｜埼玉県密着</span>
+<h1 id="skn-h1"><span>埼玉県密着。</span><span>住まいと暮らしのお悩みを、</span><span><em>まとめて解決。</em></span></h1>
+<p class="sub">片付けから買取、リフォームまで。暮らしのことなら株式会社saikouへ。</p>
+<nav class="svc" aria-label="4つの事業">
+<a href="/ihin-seiri/"><i><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M9 21v-6h6v6"/></svg></i>遺品整理<br>生前整理</a>
+<a href="/kaigo-reform/"><i><svg viewBox="0 0 24 24"><path d="M4 20h16M6 20V10M18 20V10M3 10h18"/><circle cx="12" cy="5" r="2"/></svg></i>介護<br>リフォーム</a>
+<a href="/reform/"><i><svg viewBox="0 0 24 24"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4z"/></svg></i>一般<br>リフォーム</a>
+<a href="/kaitori/"><i><svg viewBox="0 0 24 24"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18M9 3l3 18 3-18"/></svg></i>総合<br>買取</a>
+</nav>
+<div class="bd"><span>見積もり・相談無料</span><span>遺品整理士 3名在籍</span><span>買取で費用を軽減</span><span>古物商許可</span></div>
+<div class="btns">
+<a class="bt tel" href="tel:0487068963"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span><small>電話で相談（365日 8:00〜19:00）</small><b>048-706-8963</b></span></a>
+<a class="bt line sk-line" href="https://line.me/R/ti/p/@310sunco" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9L10 21.5l3.3-2.6C18.3 18.5 22 15.1 22 11c0-4.4-4.5-8-10-8z"/></svg><span>LINEで無料相談<small>写真を送るだけ</small></span></a>
+<a class="bt form" href="/contact/"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>無料見積もり<small>24時間受付</small></span></a>
+<a class="bt area" href="#skn-area" style="grid-column:1/-1"><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg><span>対応エリアを探す</span></a>
+</div>
+</div>
+<div class="media">
+<video autoplay muted loop playsinline preload="none" poster="https://saikou-life.jp/wp-content/uploads/2026/11/saikou-genba-poster.jpg" aria-label="株式会社saikouのスタッフによる作業風景"><source src="https://saikou-life.jp/wp-content/uploads/2026/11/saikou-genba.mp4" type="video/mp4"></video>
+<span class="imgl">当社スタッフの作業風景</span>
+</div>
+</div>
+</section>
+
+<!-- ===== 3. 4つの事業 ===== -->
+<section class="alt" id="skn-service" aria-labelledby="skn-sv">
+<div class="in">
+<div class="hd"><span class="eb">SERVICE</span><h2 class="st" id="skn-sv">ご相談内容から、サービスを選ぶ</h2><p class="ld">4つの事業を、どれでも・いくつでも。まとめてのご相談も承ります。</p></div>
+<div class="four">
+<a class="card" href="/ihin-seiri/"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_0060-768x576.jpeg" alt="遺品・家財を仕分けしている当社スタッフ" width="768" height="576" loading="lazy" decoding="async"><span class="tag">01</span></div><div class="bo"><h3>遺品整理・生前整理</h3><ul><li>家財整理・ゴミ屋敷</li><li>特殊清掃・清掃</li><li>遺品の買取</li></ul><span class="more">詳しく見る →</span></div></a>
+<a class="card" href="/kaigo-reform/"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/works-kaigo-kaidan-image-768x1151.jpg" alt="手すりのある階段の施工イメージ" width="768" height="1151" loading="lazy" decoding="async"><span class="tag">02</span><span class="imgl">イメージ</span></div><div class="bo"><h3>介護リフォーム</h3><ul><li>手すり・段差解消</li><li>浴室・トイレ改修</li><li>介護保険の相談</li></ul><span class="more">詳しく見る →</span></div></a>
+<a class="card" href="/reform/"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_8660-768x1024.jpeg" alt="当社による天井クロス張り替えの施工後" width="768" height="1024" loading="lazy" decoding="async"><span class="tag">03</span></div><div class="bo"><h3>一般リフォーム</h3><ul><li>クロス・床・水回り</li><li>屋根・外壁</li><li>原状回復・リノベ</li></ul><span class="more">詳しく見る →</span></div></a>
+<a class="card" href="/kaitori/"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/works-kaitori-kikinzoku-image-768x512.jpg" alt="金のネックレスなど貴金属のイメージ" width="768" height="512" loading="lazy" decoding="async"><span class="tag">04</span><span class="imgl">イメージ</span></div><div class="bo"><h3>総合買取</h3><ul><li>金・プラチナ・貴金属</li><li>ブランド品・時計</li><li>家電・家具・衣類</li></ul><span class="more">詳しく見る →</span></div></a>
+</div>
+</div>
+</section>
+
+<!-- ===== 4. お悩み ===== -->
+<section aria-labelledby="skn-wr">
+<div class="in">
+<div class="hd"><span class="eb">YOUR CONCERNS</span><h2 class="st" id="skn-wr">こんなお悩み、どこに相談すればいいか迷っていませんか？</h2></div>
+<ul class="wr">
+<li><small>遺品整理・生前整理</small>実家の片付けを、何から始めればいいか分からない</li>
+<li><small>介護リフォーム</small>親が家の中で転ばないか心配。介護保険が使えるか知りたい</li>
+<li><small>一般リフォーム</small>片付けた後の家を、貸す・売る・住むために直したい</li>
+<li><small>総合買取</small>価値のありそうな物を、捨てずに売りたい</li>
+<li><small>遠方にお住まいの方</small>実家が遠く、何度も通えない</li>
+<li><small>まとめてのご相談</small>業者を何社も探して比べるのが大変</li>
+</ul>
+<div class="ans">
+<h3>そのお悩み、<em>株式会社saikouがまとめて</em>お受けします。</h3>
+<p>整理・買取・清掃・リフォームを一社で。窓口がひとつなので、ご連絡や日程の調整もかんたんです。</p>
+</div>
+</div>
+</section>
+
+<!-- ===== 問い合わせ帯① ===== -->
+<div class="cta" role="region" aria-label="お問い合わせ">
+<div class="in">
+<h2>まずはお気軽にご相談ください</h2>
+<div class="pts"><span>見積もり無料</span><span>365日受付</span><span>ご相談だけでも大丈夫です</span></div>
+<div class="btns">
+<a class="bt tel" href="tel:0487068963"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span><small>お電話で相談</small><b>048-706-8963</b></span></a>
+<a class="bt line sk-line" href="https://line.me/R/ti/p/@310sunco" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9L10 21.5l3.3-2.6C18.3 18.5 22 15.1 22 11c0-4.4-4.5-8-10-8z"/></svg><span>LINEで無料相談</span></a>
+<a class="bt form" href="/contact/"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>無料見積もりフォーム</span></a>
+</div>
+<p class="hours">受付時間 8:00〜19:00（365日）／フォーム・LINEは24時間受付</p>
+</div>
+</div>
+
+<!-- ===== 5. saikouについて ===== -->
+<section class="alt" id="skn-about" aria-labelledby="skn-ab">
+<div class="in ab">
+<div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/saikou-about-aircon.webp" alt="株式会社saikouのスタッフによる作業風景" loading="lazy" decoding="async"><span class="imgl">当社スタッフ</span></div>
+<div>
+<span class="eb">ABOUT US</span>
+<h2 class="st" id="skn-ab">想いを繋ぐ。暮らしを支える。</h2>
+<p class="ld">株式会社saikouは、さいたま市中央区に事務所を構える地域の会社です。ご家族が大切にしてきた品物、暮らしてきた家、これからの生活。そのすべてを丁寧に受け取り、片付けから住まいの改修まで、一つの窓口でお手伝いします。</p>
+<div class="kv">
+<div><b>4</b><span>つの事業を<br>一社で対応</span></div>
+<div><b>3名</b><span>遺品整理士<br>在籍</span></div>
+<div><b>365日</b><span>ご相談<br>受付</span></div>
+</div>
+<a class="lk" href="/company/">会社概要・代表挨拶 →</a>
+</div>
+</div>
+</section>
+
+<!-- ===== 6. 対応エリア ===== -->
+<section id="skn-area" aria-labelledby="skn-ar">
+<div class="in">
+<div class="hd"><span class="eb">SERVICE AREA</span><h2 class="st" id="skn-ar">お住まいの地域から探す</h2><p class="ld">埼玉県内の市区町村ごとに、対応内容とご相談先をご案内しています。</p></div>
+<div class="ar">
+<div class="sa-search"></div>
+<details open><summary>さいたま市（10区）</summary><div class="ct"><a href="/area/saitama/">さいたま市</a><a href="/area/saitama/nishi/">西区</a><a href="/area/saitama/kita/">北区</a><a href="/area/saitama/omiya/">大宮区</a><a href="/area/saitama/minuma/">見沼区</a><a href="/area/saitama/chuo/">中央区</a><a href="/area/saitama/sakura/">桜区</a><a href="/area/saitama/urawa/">浦和区</a><a href="/area/saitama/minami/">南区</a><a href="/area/saitama/midori/">緑区</a><a href="/area/saitama/iwatsuki/">岩槻区</a></div></details>
+<details><summary>県央地域</summary><div class="ct"><a href="/area/ageo/">上尾市</a><a href="/area/okegawa/">桶川市</a><a href="/area/kitamoto/">北本市</a><a href="/area/konosu/">鴻巣市</a><a href="/area/ina/">伊奈町</a></div></details>
+<details><summary>南部・南西部地域</summary><div class="ct"><a href="/area/kawaguchi/">川口市</a><a href="/area/warabi/">蕨市</a><a href="/area/toda/">戸田市</a><a href="/area/asaka/">朝霞市</a><a href="/area/shiki/">志木市</a><a href="/area/wako/">和光市</a><a href="/area/niiza/">新座市</a><a href="/area/fujimi/">富士見市</a><a href="/area/fujimino/">ふじみ野市</a><a href="/area/miyoshi/">三芳町</a></div></details>
+<details><summary>東部地域</summary><div class="ct"><a href="/area/kasukabe/">春日部市</a><a href="/area/soka/">草加市</a><a href="/area/koshigaya/">越谷市</a><a href="/area/yashio/">八潮市</a><a href="/area/misato/">三郷市</a><a href="/area/yoshikawa/">吉川市</a><a href="/area/matsubushi/">松伏町</a></div></details>
+<details><summary>川越・比企地域</summary><div class="ct"><a href="/area/kawagoe/">川越市</a><a href="/area/higashimatsuyama/">東松山市</a><a href="/area/sakado/">坂戸市</a><a href="/area/tsurugashima/">鶴ヶ島市</a><a href="/area/moroyama/">毛呂山町</a><a href="/area/ogose/">越生町</a><a href="/area/namegawa/">滑川町</a><a href="/area/ranzan/">嵐山町</a><a href="/area/ogawa/">小川町</a><a href="/area/kawajima/">川島町</a><a href="/area/yoshimi/">吉見町</a><a href="/area/hatoyama/">鳩山町</a><a href="/area/tokigawa/">ときがわ町</a><a href="/area/higashichichibu/">東秩父村</a></div></details>
+<details><summary>西部地域</summary><div class="ct"><a href="/area/tokorozawa/">所沢市</a><a href="/area/hanno/">飯能市</a><a href="/area/sayama/">狭山市</a><a href="/area/iruma/">入間市</a><a href="/area/hidaka/">日高市</a></div></details>
+<details><summary>利根地域</summary><div class="ct"><a href="/area/gyoda/">行田市</a><a href="/area/kazo/">加須市</a><a href="/area/hanyu/">羽生市</a><a href="/area/kuki/">久喜市</a><a href="/area/hasuda/">蓮田市</a><a href="/area/satte/">幸手市</a><a href="/area/shiraoka/">白岡市</a><a href="/area/miyashiro/">宮代町</a><a href="/area/sugito/">杉戸町</a></div></details>
+<details><summary>北部・秩父地域</summary><div class="ct"><a href="/area/kumagaya/">熊谷市</a><a href="/area/honjo/">本庄市</a><a href="/area/fukaya/">深谷市</a><a href="/area/misatomachi/">美里町</a><a href="/area/kamikawa/">神川町</a><a href="/area/kamisato/">上里町</a><a href="/area/yorii/">寄居町</a><a href="/area/chichibu/">秩父市</a><a href="/area/yokoze/">横瀬町</a><a href="/area/minano/">皆野町</a><a href="/area/nagatoro/">長瀞町</a><a href="/area/ogano/">小鹿野町</a></div></details>
+<p class="note" style="margin-top:12px">地域を選ぶと、その地域で4つの事業から希望のサービスを選べます。ご住所やご依頼内容によって対応できる内容が異なりますので、お気軽にお問い合わせください。</p>
+</div>
+</div>
+</section>
+
+<!-- ===== 7. 4事業の詳しい紹介 ===== -->
+<section class="alt" aria-labelledby="skn-sd">
+<div class="in">
+<div class="hd"><span class="eb">OUR SERVICES</span><h2 class="st" id="skn-sd">4つの事業のご案内</h2></div>
+<div class="sd">
+<div class="sdi"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_0044-768x1024.jpeg" alt="当社による遺品整理の作業後のお部屋" width="768" height="1024" loading="lazy" decoding="async"><span class="imgl">当社の作業後の写真</span></div><div class="bo"><span class="no">SERVICE 01</span><h3>遺品整理・生前整理・家財整理</h3><p>遺品整理士が、故人様とご家族の想いを大切にしながら仕分けます。残す物・売る物・処分する物をご一緒に確認し、清掃まで行います。</p><div class="chips"><span>遺品整理</span><span>生前整理</span><span>家財整理</span><span>ゴミ屋敷</span><span>特殊清掃</span><span>ハウスクリーニング</span><span>遺品の買取</span></div><p class="pr">1K〜1DK <b>3万円〜</b>（税込）</p><a class="lk" href="/ihin-seiri/">遺品整理について詳しく →</a></div></div>
+<div class="sdi"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/works-kaigo-kaidan-image-768x1151.jpg" alt="手すりのある階段の施工イメージ" width="768" height="1151" loading="lazy" decoding="async"><span class="imgl">イメージ</span></div><div class="bo"><span class="no">SERVICE 02</span><h3>介護リフォーム</h3><p>ご高齢の方が安心して暮らせる住まいへ。介護保険の住宅改修（対象工事費20万円まで、自己負担は原則1〜3割）のご相談も承ります。</p><div class="chips"><span>手すり設置</span><span>段差解消</span><span>バリアフリー</span><span>浴室・トイレ改修</span><span>介護保険の相談</span></div><p class="pr">手すり設置 <b>1万円〜</b>（税込・一般的な相場）</p><a class="lk" href="/kaigo-reform/">介護リフォームについて詳しく →</a></div></div>
+<div class="sdi"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/0BE1C27E-67C9-4C7A-B042-BFB92BD68684-768x576.jpeg" alt="当社によるセメント瓦屋根の塗装 施工後" width="768" height="576" loading="lazy" decoding="async"><span class="imgl">当社の施工後の写真</span></div><div class="bo"><span class="no">SERVICE 03</span><h3>一般リフォーム</h3><p>内装・水回りから屋根・外壁まで。見積書には工事ごとの内訳を記載し、ご納得いただいてから着工します。</p><div class="chips"><span>内装</span><span>クロス・床</span><span>水回り</span><span>屋根・外壁</span><span>原状回復</span><span>中古住宅リノベーション</span></div><p class="pr">クロス張り替え（6畳） <b>5万円〜</b>（税込）</p><a class="lk" href="/reform/">一般リフォームについて詳しく →</a></div></div>
+<div class="sdi"><div class="ph"><img src="https://saikou-life.jp/wp-content/uploads/2026/11/reason02-kaitori-image-768x432.jpg" alt="腕時計のイメージ" width="768" height="432" loading="lazy" decoding="async"><span class="imgl">イメージ</span></div><div class="bo"><span class="no">SERVICE 04</span><h3>総合買取</h3><p>古物商許可（埼玉県公安委員会 第431350066894号）を取得しています。整理と同時にご依頼いただくと、買取金額を整理費用に充てられます。</p><div class="chips"><span>金・プラチナ</span><span>貴金属</span><span>ブランド品</span><span>時計</span><span>家電</span><span>家具</span><span>衣類</span></div><p class="pr">査定は<b>無料</b></p><a class="lk" href="/kaitori/">買取について詳しく →</a></div></div>
+</div>
+</div>
+</section>
+
+<!-- ===== 8. 選ばれる9つの理由 ===== -->
+<section id="skn-reasons" aria-labelledby="skn-rs">
+<div class="in">
+<div class="hd"><span class="eb">REASON</span><h2 class="st" id="skn-rs">株式会社saikouが選ばれる9つの理由</h2></div>
+<div class="rs">
+<div class="rsi"><div class="ic"><b>01</b><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/><path d="M16 4l2 2 3-3"/></svg></div><div><h3>遺品整理士が在籍</h3><p>遺品整理士3名が在籍。供養や形見分けのご相談にも、専門知識をもとにお答えします。</p></div></div>
+<div class="rsi"><div class="ic"><b>02</b><svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg></div><div><h3>地域密着の迅速対応</h3><p>さいたま市中央区の事務所から伺います。お急ぎの場合は、できるだけ早い日程をご案内します。<span class="tbc">最短到着時間 要確認</span></p></div></div>
+<div class="rsi"><div class="ic"><b>03</b><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M12 12v9M9 18h6"/></svg></div><div><h3>女性のお客様も安心のご相談</h3><p>女性スタッフの対応をご希望の場合は、ご相談時にお知らせください。<span class="tbc">女性スタッフ在籍 要確認</span></p></div></div>
+<div class="rsi"><div class="ic"><b>04</b><svg viewBox="0 0 24 24"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div><h3>買取で整理費用を軽減</h3><p>貴金属・ブランド品・家電などを査定し、買取金額を整理費用に充てられます。</p></div></div>
+<div class="rsi"><div class="ic"><b>05</b><svg viewBox="0 0 24 24"><rect x="1" y="7" width="13" height="10"/><path d="M14 10h4l3 3v4h-7"/><circle cx="6" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><div><h3>許可業者と提携し適正処理</h3><p>一般廃棄物は、市区町村の許可を受けた収集運搬業者と提携し、法令に沿って処理します。</p></div></div>
+<div class="rsi"><div class="ic"><b>06</b><svg viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M15 8l2 2"/></svg></div><div><h3>立ち会い不要・鍵預かりも相談可</h3><p>遠方にお住まいの方も、鍵のお預かりと写真での作業報告など、ご事情に合わせて対応を考えます。<span class="tbc">対応範囲 要確認</span></p></div></div>
+<div class="rsi"><div class="ic"><b>07</b><svg viewBox="0 0 24 24"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M19 15l1 2 2 1-2 1-1 2-1-2-2-1 2-1z"/></svg></div><div><h3>ハウスクリーニングまで</h3><p>片付けて終わりではなく、キッチン・浴室・エアコンなどの清掃まで続けてご依頼いただけます。</p></div></div>
+<div class="rsi"><div class="ic"><b>08</b><svg viewBox="0 0 24 24"><path d="M3 9l9-6 9 6v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/><path d="M8 21v-5h8v5M7 13h10"/></svg></div><div><h3>介護リフォームにも対応</h3><p>生前整理と合わせて、手すり設置や段差解消など、これからの暮らしに合わせた住まいをご提案します。</p></div></div>
+<div class="rsi"><div class="ic"><b>09</b><svg viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div><div><h3>プライバシーに配慮した作業</h3><p>個人情報や書類は丁寧に扱います。ご近所への配慮が必要な場合も、事前にご相談ください。</p></div></div>
+</div>
+</div>
+</section>
+
+<!-- ===== 9. お客様の声（実在の声が集まるまでは非表示） ===== -->
+<section class="alt" id="skn-voice" aria-labelledby="skn-vc">
+<div class="in">
+<div class="hd"><span class="eb">CUSTOMER VOICE</span><h2 class="st" id="skn-vc">お客様の声</h2></div>
+<div class="vc-empty"><p><b>【下書き用メモ】</b>掲載許可をいただいた実際のお客様の声（地域・事業・ひとこと）が3件以上集まった時点で表示します。それまでは公開時にこのセクションを非表示にします。<span class="tbc">お客様の声の提供 要確認</span></p></div>
+</div>
+</section>
+
+<!-- ===== 10. 料金の目安 ===== -->
+<section id="skn-price" aria-labelledby="skn-pr">
+<div class="in">
+<div class="hd"><span class="eb">PRICE</span><h2 class="st" id="skn-pr">料金の目安</h2><p class="ld">掲載価格はすべて税込の参考価格です。正式な料金は、現地確認のうえお見積もりでご案内します。</p></div>
+<div>
+<input type="radio" name="skn-pt" id="pt1" class="ptab" checked><input type="radio" name="skn-pt" id="pt2" class="ptab"><input type="radio" name="skn-pt" id="pt3" class="ptab"><input type="radio" name="skn-pt" id="pt4" class="ptab">
+<div class="tabs" role="tablist"><label for="pt1">遺品・生前整理</label><label for="pt2">介護<br>リフォーム</label><label for="pt3">一般<br>リフォーム</label><label for="pt4">買取</label></div>
+<div class="pp pp1"><table class="pt"><thead><tr><th>間取り</th><th style="text-align:right">料金（税込）</th></tr></thead><tbody>
+<tr><td>1K〜1DK</td><td class="y"><b>3</b>万円〜</td></tr>
+<tr><td>1LDK〜2DK</td><td class="y"><b>7</b>万円〜</td></tr>
+<tr><td>2LDK〜3LDK</td><td class="y"><b>10</b>万円〜</td></tr>
+<tr><td>3LDK〜4LDK</td><td class="y">お見積もり</td></tr></tbody></table>
+<p class="note">※お荷物の量・作業内容・搬出条件により変動します。買取できるお品物があれば、その金額を整理費用から差し引けます。</p><a class="lk" href="/price/ihin-seiri/">料金を詳しく見る →</a></div>
+<div class="pp pp2"><table class="pt"><thead><tr><th>工事内容</th><th style="text-align:right">相場（税込）</th></tr></thead><tbody>
+<tr><td>手すり設置</td><td class="y"><b>1</b>万〜<b>10</b>万円</td></tr>
+<tr><td>段差解消・スロープ</td><td class="y"><b>3</b>万〜<b>20</b>万円</td></tr>
+<tr><td>介護用トイレ改修</td><td class="y"><b>10</b>万〜<b>40</b>万円</td></tr></tbody></table>
+<p class="note">※一般的な費用相場です。介護保険の住宅改修では、対象工事費20万円までのうち7〜9割が支給されます（例：工事費20万円・自己負担1割なら自己負担2万円）。原則として着工前の申請が必要です。</p><a class="lk" href="/price/kaigo-reform/">料金と介護保険を詳しく見る →</a></div>
+<div class="pp pp3"><table class="pt"><thead><tr><th>工事内容</th><th style="text-align:right">相場（税込）</th></tr></thead><tbody>
+<tr><td>クロス張り替え（6畳・壁と天井）</td><td class="y"><b>5</b>万円〜</td></tr>
+<tr><td>床・フローリング（6畳）</td><td class="y"><b>8</b>万〜<b>18</b>万円</td></tr>
+<tr><td>トイレ交換</td><td class="y"><b>10</b>万〜<b>30</b>万円</td></tr>
+<tr><td>外壁塗装（延床30坪・足場込み）</td><td class="y"><b>90</b>万〜<b>130</b>万円</td></tr></tbody></table>
+<p class="note">※一般的な市場相場です。屋根・キッチン・浴室などは詳細ページでご案内しています。</p><a class="lk" href="/price/reform/">料金を詳しく見る →</a></div>
+<div class="pp pp4"><table class="pt"><thead><tr><th>品目</th><th style="text-align:right">買取価格</th></tr></thead><tbody>
+<tr><td>金・プラチナ・貴金属</td><td class="y">当日の相場で査定</td></tr>
+<tr><td>ブランド品・時計</td><td class="y">査定にてご案内</td></tr>
+<tr><td>家電・家具・衣類</td><td class="y">査定にてご案内</td></tr></tbody></table>
+<p class="note">※買取価格は、お品物の状態や相場により変わります。査定は無料です。</p><a class="lk" href="/price/kaitori/">買取について詳しく見る →</a></div>
+</div>
+<p class="note" style="text-align:center;margin-top:14px">お支払い：現金／銀行振込／クレジットカード／PayPayなどのQRコード決済</p>
+</div>
+</section>
+
+<!-- ===== 11. 施工・作業実績 ===== -->
+<section class="alt" id="skn-works" aria-labelledby="skn-wk">
+<div class="in">
+<div class="hd"><span class="eb">WORKS</span><h2 class="st" id="skn-wk">施工・作業実績</h2><p class="ld">当社が実際に担当した現場の写真です。</p></div>
+<div class="wk">
+<div class="wki"><div class="ba"><div><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_0027-768x1024.jpeg" alt="片付け前の家財が多いお部屋" width="768" height="1024" loading="lazy" decoding="async"><em>作業前</em></div><div><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_0044-768x1024.jpeg" alt="整理後の室内" width="768" height="1024" loading="lazy" decoding="async"><em>作業後</em></div></div><div class="bo"><h3>遺品整理・家財整理</h3><dl><dt>地域</dt><dd>埼玉県内</dd><dt>内容</dt><dd>家財の仕分け・搬出・清掃</dd><dt>費用</dt><dd><span class="tbc">追記予定</span></dd></dl></div></div>
+<div class="wki"><div class="ba one"><div><img src="https://saikou-life.jp/wp-content/uploads/2026/11/IMG_8660-768x1024.jpeg" alt="当社による天井クロス張り替えの施工後" width="768" height="1024" loading="lazy" decoding="async"><em>施工後</em></div></div><div class="bo"><h3>一般リフォーム（天井クロス張り替え）</h3><dl><dt>地域</dt><dd>埼玉県内</dd><dt>内容</dt><dd>天井クロスの張り替え</dd><dt>費用</dt><dd><span class="tbc">追記予定</span></dd></dl></div></div>
+<div class="wki"><div class="ba one"><div><img src="https://saikou-life.jp/wp-content/uploads/2026/11/0BE1C27E-67C9-4C7A-B042-BFB92BD68684-768x576.jpeg" alt="当社によるセメント瓦屋根の塗装 施工後" width="768" height="576" loading="lazy" decoding="async"><em>施工後</em></div></div><div class="bo"><h3>一般リフォーム（屋根塗装）</h3><dl><dt>地域</dt><dd>埼玉県内</dd><dt>内容</dt><dd>セメント瓦屋根の塗装</dd><dt>費用</dt><dd><span class="tbc">追記予定</span></dd></dl></div></div>
+</div>
+<p class="note" style="text-align:center;margin-top:14px">実績は今後「作業・施工実績」ページで、地域・事業別に順次掲載します。</p>
+</div>
+</section>
+
+<!-- ===== 12. 買取で費用を軽減できる仕組み ===== -->
+<section id="skn-merit" aria-labelledby="skn-mr">
+<div class="in">
+<div class="hd"><span class="eb">ONE-STOP</span><h2 class="st" id="skn-mr">一社だから、費用も手間も軽くなる</h2><p class="ld">整理・買取・清掃・リフォームを別々の業者に頼む必要はありません。</p></div>
+<ol class="kf">
+<li><h3>遺品整理・生前整理</h3><p>残す物・売る物・処分する物をご一緒に仕分けます。</p></li>
+<li class="hl"><h3>家財・貴金属の査定と買取</h3><p>価値のある品物は、その場で査定します。</p></li>
+<li class="hl"><h3>買取金額で整理費用を軽減</h3><p>買取金額を整理費用から差し引いて精算できます。</p></li>
+<li><h3>ハウスクリーニング</h3><p>空いたお部屋をきれいに整えます。</p></li>
+<li><h3>必要に応じてリフォーム</h3><p>介護リフォームや内装・水回りの改修を行います。</p></li>
+<li><h3>住まいの再活用</h3><p>住み続ける・貸す・売るなど、次の使い方へつなげます。</p></li>
+</ol>
+<div class="calc">
+<h3>費用の考え方（例）</h3>
+<div class="eq"><div><span>整理費用</span><b>15万円</b></div><span class="op">−</span><div><span>買取金額</span><b>3万円</b></div><span class="op">=</span><div class="res"><span>お支払い</span><b>12万円</b></div></div>
+<p class="note" style="margin-top:10px;text-align:center">※数値は説明のための例です。実際の金額は、お見積もりと査定の結果によります。</p>
+</div>
+<div class="combo">
+<div><b>ご実家の片付けをされる方に：</b>遺品整理 ＋ 買取 ＋ ハウスクリーニング ＋ 原状回復リフォーム</div>
+<div><b>ご高齢のご家族がいる方に：</b>生前整理 ＋ 介護リフォーム（手すり・段差解消）</div>
+</div>
+</div>
+</section>
+
+<!-- ===== 問い合わせ帯② ===== -->
+<div class="cta" role="region" aria-label="お問い合わせ">
+<div class="in">
+<h2>複数のご相談も、一度のお問い合わせで</h2>
+<div class="pts"><span>見積もり無料</span><span>買取査定も同時に</span><span>365日受付</span></div>
+<div class="btns">
+<a class="bt tel" href="tel:0487068963"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span><small>お電話で相談</small><b>048-706-8963</b></span></a>
+<a class="bt line sk-line" href="https://line.me/R/ti/p/@310sunco" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9L10 21.5l3.3-2.6C18.3 18.5 22 15.1 22 11c0-4.4-4.5-8-10-8z"/></svg><span>LINEで無料相談</span></a>
+<a class="bt form" href="/contact/"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>無料見積もりフォーム</span></a>
+</div>
+<p class="hours">受付時間 8:00〜19:00（365日）／フォーム・LINEは24時間受付</p>
+</div>
+</div>
+
+<!-- ===== 13. ご依頼の流れ ===== -->
+<section class="alt" id="skn-flow" aria-labelledby="skn-fl">
+<div class="in">
+<div class="hd"><span class="eb">FLOW</span><h2 class="st" id="skn-fl">お問い合わせから完了までの流れ</h2></div>
+<ol class="fl">
+<li><div class="n">STEP<b>01</b></div><div><h3>お問い合わせ</h3><p>電話・LINE・フォームから。複数のご相談もまとめてどうぞ。</p></div></li>
+<li><div class="n">STEP<b>02</b></div><div><h3>現地調査・お見積もり</h3><p>現地を確認し、整理・買取・工事の内容と費用をご案内します。</p></div></li>
+<li><div class="n">STEP<b>03</b></div><div><h3>内容確認・ご契約</h3><p>ご家族とご相談のうえ、ご納得いただいてからご契約です。</p></div></li>
+<li><div class="n">STEP<b>04</b></div><div><h3>作業・施工</h3><p>整理・買取・清掃・リフォームを順番に進めます。</p></div></li>
+<li><div class="n">STEP<b>05</b></div><div><h3>完了確認・お支払い</h3><p>仕上がりをご確認いただき、精算します。</p></div></li>
+</ol>
+<p class="note" style="margin-top:12px">※介護保険を利用する住宅改修は、着工前の申請が必要です。</p>
+</div>
+</section>
+
+<!-- ===== 14. よくある質問 ===== -->
+<section id="skn-faq" aria-labelledby="skn-fq">
+<div class="in fq">
+<div class="hd"><span class="eb">FAQ</span><h2 class="st" id="skn-fq">よくあるご質問</h2></div>
+<details><summary>見積もりは無料ですか？</summary><div class="a">はい、ご相談・お見積もりは無料です。現場の状況を確認し、必要な作業内容と料金をご案内します。</div></details>
+<details><summary>見積もり後に断ることはできますか？</summary><div class="a">はい。お見積もり内容をご確認いただき、ご納得いただいたうえでご依頼ください。契約前であれば、ご依頼を見送っていただいて構いません。</div></details>
+<details><summary>遠方に住んでいても依頼できますか？</summary><div class="a">はい、遠方にお住まいの方からのご相談にも対応しています。鍵のお預かりや作業報告など、ご事情に合わせた方法をご相談ください。</div></details>
+<details><summary>遺品整理と買取を一緒にお願いできますか？</summary><div class="a">はい、可能です。整理するお品物の中から買取できるものを査定し、買取金額を整理費用の負担軽減に充てられます。</div></details>
+<details><summary>ゴミ屋敷の片付けや清掃も相談できますか？</summary><div class="a">はい。家財の仕分け・整理や室内清掃などをご相談いただけます。状況を確認したうえで、必要な作業をご提案します。</div></details>
+<details><summary>介護保険を使った住宅改修はできますか？</summary><div class="a">手すり設置や段差解消など、介護保険の住宅改修費支給制度の対象となる工事についてご相談いただけます。制度の利用には条件があり、原則として着工前の申請が必要です。</div></details>
+<details><summary>リフォームだけの相談もできますか？</summary><div class="a">はい。クロス・床・水回り・屋根・外壁など、リフォームだけのご相談も承っています。</div></details>
+<details><summary>どのような品物を買取できますか？</summary><div class="a">貴金属・ブランド品・時計・家電・家具・衣類など、幅広く査定しています。品物の種類や状態によっては、買取できない場合もあります。</div></details>
+<details><summary>追加料金が発生することはありますか？</summary><div class="a">お見積もり時に確認できた作業内容をもとに料金をご案内します。作業範囲の変更や追加のご希望がある場合は、内容と費用を事前にご説明し、ご確認いただいてから進めます。</div></details>
+<details><summary>土日祝日も相談できますか？</summary><div class="a">365日ご相談を受け付けています（受付時間 8:00〜19:00）。現地訪問や作業の日程は、予約状況に応じてご案内します。</div></details>
+</div>
+</section>
+
+<!-- ===== 15. 会社概要・代表挨拶 ===== -->
+<section class="alt" id="skn-company" aria-labelledby="skn-co">
+<div class="in">
+<div class="hd"><span class="eb">COMPANY</span><h2 class="st" id="skn-co">会社概要・代表挨拶</h2></div>
+<div class="co">
+<div class="msg">
+<h3>「お客様が自分の家族だったら、どうしてほしいか」を基準に。</h3>
+<p>片付けは片付け業者、売る物は買取店、家の工事はリフォーム会社。これまでは、いくつもの会社に連絡しなければなりませんでした。私たちは、整理・買取・清掃・住まいの改修までを一社で受けられる会社を目指しています。何から相談すればいいか分からない段階でも構いません。地元さいたまの会社として、一つひとつ一緒に考えます。</p>
+<p class="sg"><small>株式会社saikou 代表取締役</small>阿部 耶真斗</p>
+</div>
+<table class="ct">
+<tr><th>会社名</th><td>株式会社saikou</td></tr>
+<tr><th>代表者</th><td>代表取締役 阿部 耶真斗</td></tr>
+<tr><th>設立</th><td>2024年</td></tr>
+<tr><th>所在地</th><td>埼玉県さいたま市中央区本町東3-7-7 大畠与野ビル 事務所202</td></tr>
+<tr><th>電話</th><td><a href="tel:0487068963">048-706-8963</a>（365日 8:00〜19:00）</td></tr>
+<tr><th>事業内容</th><td>遺品整理・生前整理・家財整理／特殊清掃・ハウスクリーニング／介護リフォーム／一般リフォーム／総合買取</td></tr>
+<tr><th>許可・資格</th><td>古物商許可 埼玉県公安委員会 第431350066894号／遺品整理士 3名在籍</td></tr>
+<tr><th>廃棄物</th><td>市区町村の許可を受けた一般廃棄物収集運搬業者と提携</td></tr>
+</table>
+</div>
+<p style="text-align:center"><a class="lk" href="/company/">会社概要を詳しく見る →</a></p>
+</div>
+</section>
+
+<!-- ===== 16. お問い合わせ ===== -->
+<div class="cta last" id="skn-contact" role="region" aria-label="お問い合わせ">
+<div class="in">
+<h2>暮らしのお困りごと、まとめてご相談ください</h2>
+<p class="reas">「何から頼めばいいか分からない」という段階でも大丈夫です。お話を伺い、必要なことだけをご提案します。お見積もり後にゆっくりご検討いただけます。</p>
+<div class="btns">
+<a class="bt tel" href="tel:0487068963"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg><span><small>お電話で相談</small><b>048-706-8963</b></span></a>
+<a class="bt line sk-line" href="https://line.me/R/ti/p/@310sunco" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M12 3C6.5 3 2 6.6 2 11c0 4 3.6 7.3 8.4 7.9L10 21.5l3.3-2.6C18.3 18.5 22 15.1 22 11c0-4.4-4.5-8-10-8z"/></svg><span>LINEで無料相談<small>写真を送って相談</small></span></a>
+<a class="bt form" href="/contact/"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>無料見積もりフォーム<small>24時間受付</small></span></a>
+</div>
+<p class="hours">受付時間 8:00〜19:00（365日）</p>
+</div>
+</div>
+
+</div>
